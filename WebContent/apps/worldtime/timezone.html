@@ -1,0 +1,2448 @@
+
+<!-- saved from url=(0042)http://worldtime.sinaapp.com/timezone.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=GBK"><script type="text/javascript" src="./timezone_files/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="./timezone_files/jquery.highlight-3-min.js"></script>
+<script type="text/javascript" src="./timezone_files/jquery.timepicker.min.js"></script>
+<link rel="stylesheet" href="../../jqueryui/css/ui-lightness/jquery-ui-1.8.24.custom.css">
+<link rel="stylesheet" href="./worldclock_files/timepicker.css">
+<script src="./timezone_files/jquery.ui.core.js"></script>
+<script src="./timezone_files/jquery.ui.widget.js"></script>
+<script src="./timezone_files/jquery.ui.position.js"></script>
+<script src="./timezone_files/jquery.ui.autocomplete.js"></script>
+<script>
+	function generateUTC() {
+		$('span.timezone').each(
+				function() {
+					var timezoneStr = $(this).parent().prev().html();
+					var negative = false;
+					if (timezoneStr.indexOf('UTC') > -1) {
+						timezoneStr = timezoneStr.substr(timezoneStr
+								.indexOf('UTC') + 3);
+						if (timezoneStr.indexOf('hour') > -1) {
+							timezoneStr = timezoneStr.substr(0, timezoneStr
+									.indexOf('hour'));
+						}
+						if (timezoneStr.indexOf('+') > -1) {
+							timezoneStr = timezoneStr.substr(timezoneStr
+									.indexOf('+') + 1);
+						}
+						if (timezoneStr.indexOf('-') > -1) {
+							timezoneStr = timezoneStr.substr(timezoneStr
+									.indexOf('-') + 1);
+							negative = true;
+						}
+					}
+					timezoneStr = timezoneStr.trim();
+					timezoneStr = timezoneStr.replace(/:/, '');
+					if (timezoneStr == '')
+						timezoneStr = '0';
+					var timezonestring = timezoneStr;
+					if (timezoneStr.length == 1)
+						timezoneStr = '0' + timezoneStr + '00';
+					if (timezoneStr.length == 2)
+						timezoneStr = timezoneStr + '00';
+					if (timezoneStr.length == 3)
+						timezoneStr = '0' + timezoneStr;
+					if (negative) {
+						timezoneStr = 'UTC-' + timezoneStr;
+						$(this).attr('id', timezoneStr);
+					} else {
+						timezoneStr = 'UTC+' + timezoneStr;
+						$(this).attr('id', timezoneStr);
+					}
+				});
+		$('#header').text($('#TimeZones2').html());
+	}
+	function Year_Month(now) {
+		var yy = now.getYear();
+		var mm = now.getMonth();
+		var mmm = new Array();
+		mmm[0] = "January";
+		mmm[1] = "February  ";
+		mmm[2] = "March";
+		mmm[3] = "April";
+		mmm[4] = "May";
+		mmm[5] = "June";
+		mmm[6] = "July";
+		mmm[7] = "August";
+		mmm[8] = "September";
+		mmm[9] = "October";
+		mmm[10] = "November";
+		mmm[11] = "December";
+		mm = mmm[mm];
+		return (mm);
+	}
+	function thisYear(now) {
+		var yy = now.getFullYear();
+		return (yy);
+	}
+	function Date_of_Today(now) {
+		return (now.getDate());
+	}
+	function Date_of_Week(now) {
+		return Date_of_Week0(now.getDay());
+	}
+	function Date_of_Week(now, curentlygmtoffset, targetoffset) {
+		var weekday = now.getDay();
+		var nowhours = now.getHours();
+		if (nowhours * 100 - curentlygmtoffset + targetoffset < 0) {
+			weekday = weekday - 1;
+		} else if (nowhours * 100 - curentlygmtoffset + targetoffset > 2400) {
+			weekday = weekday + 1;
+		}
+		return Date_of_Week0(weekday);
+	}
+	function Date_of_Week0(weekday) {
+		if (weekday == 0)
+			day = "Sun"
+		if (weekday == 1)
+			day = "Mon"
+		if (weekday == 2)
+			day = "Tue"
+		if (weekday == 3)
+			day = "Wed"
+		if (weekday == 4)
+			day = "Thu"
+		if (weekday == 5)
+			day = "Fri"
+		if (weekday == 6)
+			day = "Sat"
+		return day;
+	}
+
+	function Timezone_GMT(now) {
+		var gmtHours = parseFloat(now.getTimezoneOffset()) * 100 / 60;
+		gmtHours = -gmtHours;
+		return gmtHours;
+	}
+	function CurentTime(now) {
+		var hh = now.getHours();
+		var mm = now.getMinutes();
+		var ss = now.getTime() % 60000;
+		ss = (ss - (ss % 1000)) / 1000;
+		var clock = hh + ':';
+		if (mm < 10)
+			clock += '0';
+		clock += mm + ':';
+		if (ss < 10)
+			clock += '0';
+		clock += ss;
+		return (clock);
+	}
+	function CurentTime(now, currentgmtoffset, targetgmtoffset, hasSecond) {
+		var hh = now.getHours() * 100 - (currentgmtoffset - targetgmtoffset);
+		if (hh < 0)
+			hh = hh + 2400;
+		if (hh > 2400)
+			hh = hh - 2400;
+		var mm = now.getMinutes();
+		if (hh % 100 != 0) {
+			mm = parseInt(mm + 60 * (hh % 100) / 100);
+			if (mm > 60) {
+				mm = mm - 60;
+				hh = hh + 100;
+			}
+		}
+		hh = parseInt(hh / 100);
+
+		var ss = now.getTime() % 60000;
+		ss = (ss - (ss % 1000)) / 1000;
+
+		if (hh < 10)
+			hh = '0' + hh;
+		var clock = hh + ':';
+		if (mm < 10)
+			mm = '0' + mm;
+		clock += mm;
+
+		if (hasSecond) {
+			if (ss < 10)
+				ss = '0' + ss;
+			clock += ':' + ss;
+		}
+		return (clock);
+	}
+	function getTimeZone(obj) {
+		var timezoneStr = obj.attr('id').substr(3);
+		var negative = timezoneStr.substr(0, 1) == '-';
+		timezoneStr = timezoneStr.substr(1);
+		if (timezoneStr.length > 1 && timezoneStr.substr(0, 1) == '0')
+			timezoneStr = timezoneStr.substr(1);
+		if (timezoneStr.length > 1 && timezoneStr.substr(0, 1) == '0')
+			timezoneStr = timezoneStr.substr(1);
+		if (timezoneStr.length > 1 && timezoneStr.substr(0, 1) == '0')
+			timezoneStr = timezoneStr.substr(1);
+		var timezone = parseInt(timezoneStr);
+		if (negative)
+			timezone = -timezone;
+		return timezone;
+	}
+	Date.prototype.stdTimezoneOffset = function() {
+		var jan = new Date(this.getFullYear(), 0, 1);
+		var jul = new Date(this.getFullYear(), 6, 1);
+		return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+	}
+	Date.prototype.dst = function() {
+		return this.getTimezoneOffset() < this.stdTimezoneOffset();
+	}
+	function clockOn(time, tz, reset) {
+		var now = new Date();
+		if (time === undefined) {
+			now = new Date();
+			if (isClockOn == false)
+				return;
+		} else {
+			now = time;
+		}
+		var currenttimezone;
+		if (tz === undefined) {
+			currenttimezone = Timezone_GMT(now);
+		} else {
+			currenttimezone = tz;
+		}
+		myclock = Year_Month(now) + " " + Date_of_Today(now) + " "
+				+ thisYear(now) + " ";
+		$('span.currenttime').text(myclock);
+		var currentMins = Date_of_Week(now, currenttimezone,
+				Timezone_GMT(new Date()))
+				+ " "
+				+ CurentTime(now, currenttimezone, Timezone_GMT(new Date()));
+		if ($('span.gmtcurrent').text().indexOf(currentMins) == -1) {
+			$('span.timezone').each(
+					function() {
+						var currRefer = $(this).text();
+						var timezone = getTimeZone($(this));
+						$(this).text(
+								Date_of_Week(now, currenttimezone, timezone)
+										+ " "
+										+ CurentTime(now, currenttimezone,
+												timezone));
+					});
+		}
+		$('span.gmtcurrent').text(
+				Date_of_Week(now, currenttimezone, Timezone_GMT(new Date()))
+						+ " "
+						+ CurentTime(now, currenttimezone,
+								Timezone_GMT(new Date()), true) + '  GMT'
+						+ Timezone_GMT(new Date()));
+		if (isClockOn) {
+			setTimeout("clockOn()", 1000);
+		}
+	}
+	String.prototype.trim = function() {
+		return this.replace(/(^\s*)|(\s*$)/g, "");
+	}
+	var timezoneShort = new Array();
+	var timezoneShortHash = {};
+	var isClockOn = true;
+	$(document).ready(
+			function() {
+				clockOn();
+				//generateUTC();
+				$('span.timezone').each(
+						function() {
+							var timezoneShortStr = $(this).parent().parent().first().find('a').text();
+							var timezoneLongStr = $(this).parent().prev().prev().prev().text();
+							var timezoneCountry = $(this).parent().prev().prev().text();
+							var timezoneStr=timezoneShortStr+' - '+timezoneCountry+' ('+timezoneLongStr+')';
+							timezoneShort.push(timezoneStr);
+							var timezone = getTimeZone($(this));
+							timezoneShortHash[timezoneStr.toLowerCase().trim()] = timezone;
+							$(this).parent().parent().find('a').attr('href',
+									'javascript:void(0);');
+							$(this).parent().prev().click(function() {
+								$("#timezoneShort").val($(this).text());
+							});
+							var currReferStr = $(this).text();
+							var currRefer = currReferStr.substr(currReferStr
+									.indexOf(' '));
+							$(this).click(function() {
+								$("#time2").val(currRefer.trim());
+							});
+							$(this).mouseover(function() {
+								$(this).css('cursor', 'pointer');
+							});
+						});
+				$("#timezoneShort").autocomplete({
+					source : timezoneShort
+				});
+				$("#settimezone").click(function() {
+					var key=$("#timezoneShort").val();
+					var time=$("#time2").val();
+					var hour = time.substr(0, time.indexOf(':'));
+					var mins = time.substr(time.indexOf(':') + 1);
+					var timezone = timezoneShortHash[key.toLowerCase().trim()];
+					var d = new Date();
+					d.setHours(hour);
+					d.setMinutes(mins);
+					clockOn(d, timezone);
+					isClockOn = false;
+				});
+				$( "#gettimezone" ).click(function(){
+		  			isClockOn=true;
+					setInterval("clockOn()", 1000);
+		  		});
+				
+				//search timezone
+		   		$( "#searchtimezone" ).autocomplete({
+		   			source: timezoneShort
+		   		});
+		   		$( "#dosearchtimezone" ).click(function(){
+		   			if($( "#searchtimezone" ).val().trim()==''){
+		   				$( "#clearsearchtimezone" ).css('display','none');
+		   			}else{
+		   				$( "#clearsearchtimezone" ).css('display','block');
+		   				var searchtimezone=$( "#searchtimezone" ).val().trim().toLowerCase();
+		   				$('span.timezone').each(function(){
+		   					var timezoneShortStr = $(this).parent().parent().first().find('a').text();
+							var timezoneLongStr = $(this).parent().prev().prev().prev().text();
+							var timezoneCountry = $(this).parent().prev().prev().text();
+							var timezoneStr=timezoneShortStr+' - '+timezoneCountry+' ('+timezoneLongStr+')';
+		   					if(timezoneStr.trim().toLowerCase()==searchtimezone){   				
+		  						$(this).parent().parent().css('display','block');
+		   					}else{
+		  						$(this).parent().parent().css('display','none');
+		   					}
+		   				});
+		   			}
+		   		});
+		   		$( "#searchtimezone" ).keyup(function(e){
+			   		 var key = e.which;
+			         if (key == 13) {
+			             e.preventDefault();
+			             $( "#dosearchtimezone" ).click();
+			         }
+		   		});
+		   		$( "#clearsearchtimezone" ).click(function(){
+		   			$('span.timezone').each(function(){
+  						$(this).parent().parent().css('display','block');
+					});
+		   			$( "#clearsearchtimezone" ).css('display','none')
+		   		});
+		   		
+				$("#time2").timePicker();
+
+				$('body').highlight("Beijing Time");
+				$('body').highlight("China Standard Time");
+				if(new Date().dst()){
+					$('body').highlight("Pacific Daylight Time");
+				}else{
+					$('body').highlight("Pacific Standard Time");
+				}
+				
+			});
+</script>
+<style>
+.highlight {
+	background-color: yellow;
+}
+body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	vertical-align: baseline;
+	line-height: 1;
+	text-align: center;
+	font-size: 13px;
+}
+
+#header {
+	height: 50px;
+	position: relative;
+	background: #ecf5cc url('image/bg-header_footer.jpg') center top
+		no-repeat;
+}
+
+#content {
+	float: left;
+}
+</style>
+	<style type="text/css"></style></head><body><div id="TimeZones">
+		<table style="width:100%; text-align: left;">
+			<tbody>
+				<tr>
+					<td class="head" colspan="2">
+						<h2 class="tophead tc">
+							Current local times:<span class="currenttime">October 7 2012 </span><span class="gmtcurrent">Sun 16:21:40  GMT800</span>
+						</h2></td>
+				</tr>
+				<tr>
+					<td class="head" style="text-align: center;">What you know:</td>
+					<td><input id="timezoneShort" size="40" value="" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"> 
+					<input type="text" id="time2" size="10" value="10:00" autocomplete="OFF"> 
+					<input type="button" id="settimezone" value="set history clock">
+					<input type="button" id="gettimezone" value="set current clock">
+					</td>
+				</tr>
+				<tr>
+					<td class="head" colspan="8">
+						What you want to know:
+						<input id="searchtimezone" size="50" value="" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
+						<input type="button" id="dosearchtimezone" value="search">
+						<input type="button" id="clearsearchtimezone" value="show All" style="display:none;">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table id="TimeZones2" style="width: 990px; text-align: center;" border="0" cellpadding="4" cellspacing="0" align="center">
+			<tbody>
+				<tr>
+					<th class="head" width="10%">Abbreviation</th>
+					<th class="head" width="25%">Full name</th>
+					<th class="head" width="25%">Location</th>
+					<th class="head" width="20%">Time zone</th>
+					<th class="head" width="20%">Current Time</th>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CST</a>
+					</td>
+					<td><span class="highlight">China Standard Time</span></td>
+					<td>Asia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">PST</a>
+					</td>
+					<td><span class="highlight">Pacific Standard Time</span></td>
+					<td>North America</td>
+					<td>UTC - 8 hours</td>
+					<td><span class="timezone" id="UTC-0800">Sun 00:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">PDT</a>
+					</td>
+					<td>Pacific Daylight Time</td>
+					<td>North America</td>
+					<td>UTC - 7 hours</td>
+					<td><span class="timezone" id="UTC-0700">Sun 01:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">ADT</a>
+					</td>
+					<td>Atlantic Daylight Time</td>
+					<td>Atlantic</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">ADT</a>
+					</td>
+					<td>Atlantic Daylight Time</td>
+					<td>North America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">AFT</a>
+					</td>
+					<td>Afghanistan Time</td>
+					<td>Asia</td>
+					<td>UTC + 4:30 hours</td>
+					<td><span class="timezone" id="UTC+0430">Sun 12:39</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">AKDT</a>
+					</td>
+					<td>Alaska Daylight Time</td>
+					<td>North America</td>
+					<td>UTC - 8 hours</td>
+					<td><span class="timezone" id="UTC-0800">Sun 00:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">AKST</a>
+					</td>
+					<td>Alaska Standard Time</td>
+					<td>North America</td>
+					<td>UTC - 9 hours</td>
+					<td><span class="timezone" id="UTC-0900">Sun 23:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">ALMT</a>
+					</td>
+					<td>Alma-Ata Time</td>
+					<td>Asia</td>
+					<td>UTC + 6 hours</td>
+					<td><span class="timezone" id="UTC+0600">Sun 14:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">AMST</a>
+					</td>
+					<td>Armenia Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 5 hours</td>
+					<td><span class="timezone" id="UTC+0500">Sun 13:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">AMST</a>
+					</td>
+					<td>Amazon Summer Time</td>
+					<td>South America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">AMT</a>
+					</td>
+					<td>Armenia Time</td>
+					<td>Asia</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">AMT</a>
+					</td>
+					<td>Amazon Time</td>
+					<td>South America</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">ANAST</a>
+					</td>
+					<td>Anadyr Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">ANAT</a>
+					</td>
+					<td>Anadyr Time</td>
+					<td>Asia</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">AQTT</a>
+					</td>
+					<td>Aqtobe Time</td>
+					<td>Asia</td>
+					<td>UTC + 5 hours</td>
+					<td><span class="timezone" id="UTC+0500">Sun 13:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">ART</a>
+					</td>
+					<td>Argentina Time</td>
+					<td>South America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">AST</a>
+					</td>
+					<td>Arabia Standard Time</td>
+					<td>Asia</td>
+					<td>UTC + 3 hours</td>
+					<td><span class="timezone" id="UTC+0300">Sun 11:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">AST</a>
+					</td>
+					<td>Atlantic Standard Time</td>
+					<td>Atlantic</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">AST</a>
+					</td>
+					<td>Atlantic Standard Time</td>
+					<td>Caribbean</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">AST</a>
+					</td>
+					<td>Atlantic Standard Time</td>
+					<td>North America</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">AZOST</a>
+					</td>
+					<td>Azores Summer Time</td>
+					<td>Atlantic</td>
+					<td>UTC</td>
+					<td><span class="timezone" id="UTC+0000">Sun 08:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">AZOT</a>
+					</td>
+					<td>Azores Time</td>
+					<td>Atlantic</td>
+					<td>UTC - 1 hour</td>
+					<td><span class="timezone" id="UTC-0100">Sun 07:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">AZST</a>
+					</td>
+					<td>Azerbaijan Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 5 hours</td>
+					<td><span class="timezone" id="UTC+0500">Sun 13:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">AZT</a>
+					</td>
+					<td>Azerbaijan Time</td>
+					<td>Asia</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">B</a>
+					</td>
+					<td>Bravo Time Zone</td>
+					<td>Military</td>
+					<td>UTC + 2 hours</td>
+					<td><span class="timezone" id="UTC+0200">Sun 10:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">BNT</a>
+					</td>
+					<td>Brunei Darussalam Time</td>
+					<td>Asia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">BOT</a>
+					</td>
+					<td>Bolivia Time</td>
+					<td>South America</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">BRST</a>
+					</td>
+					<td>Brasilia Summer Time</td>
+					<td>South America</td>
+					<td>UTC - 2 hours</td>
+					<td><span class="timezone" id="UTC-0200">Sun 06:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">BRT</a>
+					</td>
+					<td>Bras韑ia time</td>
+					<td>South America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">BST</a>
+					</td>
+					<td>Bangladesh Standard Time</td>
+					<td>Asia</td>
+					<td>UTC + 6 hours</td>
+					<td><span class="timezone" id="UTC+0600">Sun 14:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">BST</a>
+					</td>
+					<td>British Summer Time</td>
+					<td>Europe</td>
+					<td>UTC + 1 hour</td>
+					<td><span class="timezone" id="UTC+0100">Sun 09:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">BTT</a>
+					</td>
+					<td>Bhutan Time</td>
+					<td>Asia</td>
+					<td>UTC + 6 hours</td>
+					<td><span class="timezone" id="UTC+0600">Sun 14:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">C</a>
+					</td>
+					<td>Charlie Time Zone</td>
+					<td>Military</td>
+					<td>UTC + 3 hours</td>
+					<td><span class="timezone" id="UTC+0300">Sun 11:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">CAST</a>
+					</td>
+					<td>Casey Time</td>
+					<td>Antarctica</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CAT</a>
+					</td>
+					<td>Central Africa Time</td>
+					<td>Africa</td>
+					<td>UTC + 2 hours</td>
+					<td><span class="timezone" id="UTC+0200">Sun 10:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">CCT</a>
+					</td>
+					<td>Cocos Islands Time</td>
+					<td>Indian Ocean</td>
+					<td>UTC + 6:30 hours</td>
+					<td><span class="timezone" id="UTC+0630">Sun 14:39</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CDT</a>
+					</td>
+					<td>Central Daylight Time</td>
+					<td>Australia</td>
+					<td>UTC + 10:30 hours</td>
+					<td><span class="timezone" id="UTC+1030">Sun 18:39</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">CDT</a>
+					</td>
+					<td>Cuba Daylight Time</td>
+					<td>Caribbean</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CDT</a>
+					</td>
+					<td>Central Daylight Time</td>
+					<td>North America</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">CEST</a>
+					</td>
+					<td>Central European Summer Time</td>
+					<td>Europe</td>
+					<td>UTC + 2 hours</td>
+					<td><span class="timezone" id="UTC+0200">Sun 10:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CET</a>
+					</td>
+					<td>Central European Time</td>
+					<td>Africa</td>
+					<td>UTC + 1 hour</td>
+					<td><span class="timezone" id="UTC+0100">Sun 09:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">CET</a>
+					</td>
+					<td>Central European Time</td>
+					<td>Europe</td>
+					<td>UTC + 1 hour</td>
+					<td><span class="timezone" id="UTC+0100">Sun 09:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CHADT</a>
+					</td>
+					<td>Chatham Island Daylight Time</td>
+					<td>Pacific</td>
+					<td>UTC + 13:45 hours</td>
+					<td><span class="timezone" id="UTC+1345">Sun 21:48</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">CHAST</a>
+					</td>
+					<td>Chatham Island Standard Time</td>
+					<td>Pacific</td>
+					<td>UTC + 12:45 hours</td>
+					<td><span class="timezone" id="UTC+1245">Sun 20:48</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CKT</a>
+					</td>
+					<td>Cook Island Time</td>
+					<td>Pacific</td>
+					<td>UTC - 10 hours</td>
+					<td><span class="timezone" id="UTC-1000">Sun 22:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">CLST</a>
+					</td>
+					<td>Chile Summer Time</td>
+					<td>South America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CLT</a>
+					</td>
+					<td>Chile Standard Time</td>
+					<td>South America</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">COT</a>
+					</td>
+					<td>Colombia Time</td>
+					<td>South America</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CST</a>
+					</td>
+					<td><span class="highlight">China Standard Time</span></td>
+					<td>Asia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">CST</a>
+					</td>
+					<td>Central Standard Time</td>
+					<td>Australia</td>
+					<td>UTC + 9:30 hours</td>
+					<td><span class="timezone" id="UTC+0930">Sun 17:39</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CST</a>
+					</td>
+					<td>Central Standard Time</td>
+					<td>Central America</td>
+					<td>UTC - 6 hours</td>
+					<td><span class="timezone" id="UTC-0600">Sun 02:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">CST</a>
+					</td>
+					<td>Cuba Standard Time</td>
+					<td>Caribbean</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CST</a>
+					</td>
+					<td>Central Standard Time</td>
+					<td>North America</td>
+					<td>UTC - 6 hours</td>
+					<td><span class="timezone" id="UTC-0600">Sun 02:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">CVT</a>
+					</td>
+					<td>Cape Verde Time</td>
+					<td>Africa</td>
+					<td>UTC - 1 hour</td>
+					<td><span class="timezone" id="UTC-0100">Sun 07:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">CXT</a>
+					</td>
+					<td>Christmas Island Time</td>
+					<td>Australia</td>
+					<td>UTC + 7 hours</td>
+					<td><span class="timezone" id="UTC+0700">Sun 15:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">ChST</a>
+					</td>
+					<td>Chamorro Standard Time</td>
+					<td>Pacific</td>
+					<td>UTC + 10 hours</td>
+					<td><span class="timezone" id="UTC+1000">Sun 18:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">D</a>
+					</td>
+					<td>Delta Time Zone</td>
+					<td>Military</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">DAVT</a>
+					</td>
+					<td>Davis Time</td>
+					<td>Antarctica</td>
+					<td>UTC + 7 hours</td>
+					<td><span class="timezone" id="UTC+0700">Sun 15:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">E</a>
+					</td>
+					<td>Echo Time Zone</td>
+					<td>Military</td>
+					<td>UTC + 5 hours</td>
+					<td><span class="timezone" id="UTC+0500">Sun 13:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">EASST</a>
+					</td>
+					<td>Easter Island Summer Time</td>
+					<td>Pacific</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">EAST</a>
+					</td>
+					<td>Easter Island Standard Time</td>
+					<td>Pacific</td>
+					<td>UTC - 6 hours</td>
+					<td><span class="timezone" id="UTC-0600">Sun 02:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">EAT</a>
+					</td>
+					<td>Eastern Africa Time</td>
+					<td>Africa</td>
+					<td>UTC + 3 hours</td>
+					<td><span class="timezone" id="UTC+0300">Sun 11:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">EAT</a>
+					</td>
+					<td>East Africa Time</td>
+					<td>Indian Ocean</td>
+					<td>UTC + 3 hours</td>
+					<td><span class="timezone" id="UTC+0300">Sun 11:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">ECT</a>
+					</td>
+					<td>Ecuador Time</td>
+					<td>South America</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">EDT</a>
+					</td>
+					<td>Eastern Daylight Time</td>
+					<td>Australia</td>
+					<td>UTC + 11 hours</td>
+					<td><span class="timezone" id="UTC+1100">Sun 19:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">EDT</a>
+					</td>
+					<td>Eastern Daylight Time</td>
+					<td>Caribbean</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">EDT</a>
+					</td>
+					<td>Eastern Daylight Time</td>
+					<td>North America</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">EDT</a>
+					</td>
+					<td>Eastern Daylight Time</td>
+					<td>Pacific</td>
+					<td>UTC + 11 hours</td>
+					<td><span class="timezone" id="UTC+1100">Sun 19:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">EEST</a>
+					</td>
+					<td>Eastern European Summer Time</td>
+					<td>Africa</td>
+					<td>UTC + 3 hours</td>
+					<td><span class="timezone" id="UTC+0300">Sun 11:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">EEST</a>
+					</td>
+					<td>Eastern European Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 3 hours</td>
+					<td><span class="timezone" id="UTC+0300">Sun 11:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">EEST</a>
+					</td>
+					<td>Eastern European Summer Time</td>
+					<td>Europe</td>
+					<td>UTC + 3 hours</td>
+					<td><span class="timezone" id="UTC+0300">Sun 11:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">EET</a>
+					</td>
+					<td>Eastern European Time</td>
+					<td>Africa</td>
+					<td>UTC + 2 hours</td>
+					<td><span class="timezone" id="UTC+0200">Sun 10:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">EET</a>
+					</td>
+					<td>Eastern European Time</td>
+					<td>Asia</td>
+					<td>UTC + 2 hours</td>
+					<td><span class="timezone" id="UTC+0200">Sun 10:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">EET</a>
+					</td>
+					<td>Eastern European Time</td>
+					<td>Europe</td>
+					<td>UTC + 2 hours</td>
+					<td><span class="timezone" id="UTC+0200">Sun 10:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">EGST</a>
+					</td>
+					<td>Eastern Greenland Summer Time</td>
+					<td>North America</td>
+					<td>UTC</td>
+					<td><span class="timezone" id="UTC+0000">Sun 08:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">EGT</a>
+					</td>
+					<td>East Greenland Time</td>
+					<td>North America</td>
+					<td>UTC - 1 hour</td>
+					<td><span class="timezone" id="UTC-0100">Sun 07:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">EST</a>
+					</td>
+					<td>Eastern Standard Time</td>
+					<td>Australia</td>
+					<td>UTC + 10 hours</td>
+					<td><span class="timezone" id="UTC+1000">Sun 18:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">EST</a>
+					</td>
+					<td>Eastern Standard Time</td>
+					<td>Central America</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">EST</a>
+					</td>
+					<td>Eastern Standard Time</td>
+					<td>Caribbean</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">EST</a>
+					</td>
+					<td>Eastern Standard Time</td>
+					<td>North America</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">ET</a>
+					</td>
+					<td>Tiempo del Este</td>
+					<td>Central America</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">ET</a>
+					</td>
+					<td>Tiempo del Este</td>
+					<td>Caribbean</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">ET</a>
+					</td>
+					<td>Tiempo Del Este</td>
+					<td>North America</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">F</a>
+					</td>
+					<td>Foxtrot Time Zone</td>
+					<td>Military</td>
+					<td>UTC + 6 hours</td>
+					<td><span class="timezone" id="UTC+0600">Sun 14:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">FJST</a>
+					</td>
+					<td>Fiji Summer Time</td>
+					<td>Pacific</td>
+					<td>UTC + 13 hours</td>
+					<td><span class="timezone" id="UTC+1300">Sun 21:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">FJT</a>
+					</td>
+					<td>Fiji Time</td>
+					<td>Pacific</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">FKST</a>
+					</td>
+					<td>Falkland Islands Summer Time</td>
+					<td>South America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">FKT</a>
+					</td>
+					<td>Falkland Island Time</td>
+					<td>South America</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">FNT</a>
+					</td>
+					<td>Fernando de Noronha Time</td>
+					<td>South America</td>
+					<td>UTC - 2 hours</td>
+					<td><span class="timezone" id="UTC-0200">Sun 06:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">G</a>
+					</td>
+					<td>Golf Time Zone</td>
+					<td>Military</td>
+					<td>UTC + 7 hours</td>
+					<td><span class="timezone" id="UTC+0700">Sun 15:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">GALT</a>
+					</td>
+					<td>Galapagos Time</td>
+					<td>Pacific</td>
+					<td>UTC - 6 hours</td>
+					<td><span class="timezone" id="UTC-0600">Sun 02:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">GAMT</a>
+					</td>
+					<td>Gambier Time</td>
+					<td>Pacific</td>
+					<td>UTC - 9 hours</td>
+					<td><span class="timezone" id="UTC-0900">Sun 23:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">GET</a>
+					</td>
+					<td>Georgia Standard Time</td>
+					<td>Asia</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">GFT</a>
+					</td>
+					<td>French Guiana Time</td>
+					<td>South America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">GILT</a>
+					</td>
+					<td>Gilbert Island Time</td>
+					<td>Pacific</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">GMT</a>
+					</td>
+					<td>Greenwich Mean Time</td>
+					<td>Africa</td>
+					<td>UTC</td>
+					<td><span class="timezone" id="UTC+0000">Sun 08:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">GMT</a>
+					</td>
+					<td>Greenwich Mean Time</td>
+					<td>Europe</td>
+					<td>UTC</td>
+					<td><span class="timezone" id="UTC+0000">Sun 08:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">GST</a>
+					</td>
+					<td>Gulf Standard Time</td>
+					<td>Asia</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">GYT</a>
+					</td>
+					<td>Guyana Time</td>
+					<td>South America</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">H</a>
+					</td>
+					<td>Hotel Time Zone</td>
+					<td>Military</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HAA</a>
+					</td>
+					<td>Heure Avanc閑 de l'Atlantique</td>
+					<td>Atlantic</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HAA</a>
+					</td>
+					<td>Heure Avanc閑 de l'Atlantique</td>
+					<td>North America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HAC</a>
+					</td>
+					<td>Heure Avanc閑 du Centre</td>
+					<td>North America</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HADT</a>
+					</td>
+					<td>Hawaii-Aleutian Daylight Time</td>
+					<td>North America</td>
+					<td>UTC - 9 hours</td>
+					<td><span class="timezone" id="UTC-0900">Sun 23:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HAE</a>
+					</td>
+					<td>Heure Avanc閑 de l'Est</td>
+					<td>Caribbean</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HAE</a>
+					</td>
+					<td>Heure Avanc閑 de l'Est</td>
+					<td>North America</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HAP</a>
+					</td>
+					<td>Heure Avanc閑 du Pacifique</td>
+					<td>North America</td>
+					<td>UTC - 7 hours</td>
+					<td><span class="timezone" id="UTC-0700">Sun 01:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HAR</a>
+					</td>
+					<td>Heure Avanc閑 des Rocheuses</td>
+					<td>North America</td>
+					<td>UTC - 6 hours</td>
+					<td><span class="timezone" id="UTC-0600">Sun 02:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HAST</a>
+					</td>
+					<td>Hawaii-Aleutian Standard Time</td>
+					<td>North America</td>
+					<td>UTC - 10 hours</td>
+					<td><span class="timezone" id="UTC-1000">Sun 22:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HAT</a>
+					</td>
+					<td>Heure Avanc閑 de Terre-Neuve</td>
+					<td>North America</td>
+					<td>UTC - 2:30 hours</td>
+					<td><span class="timezone" id="UTC-0230">Sun 06:03</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HAY</a>
+					</td>
+					<td>Heure Avanc閑 du Yukon</td>
+					<td>North America</td>
+					<td>UTC - 8 hours</td>
+					<td><span class="timezone" id="UTC-0800">Sun 00:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HKT</a>
+					</td>
+					<td>Hong Kong Time</td>
+					<td>Asia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HLV</a>
+					</td>
+					<td>Hora Legal de Venezuela</td>
+					<td>South America</td>
+					<td>UTC - 4:30 hours</td>
+					<td><span class="timezone" id="UTC-0430">Sun 04:03</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HNA</a>
+					</td>
+					<td>Heure Normale de l'Atlantique</td>
+					<td>Atlantic</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HNA</a>
+					</td>
+					<td>Heure Normale de l'Atlantique</td>
+					<td>Caribbean</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HNA</a>
+					</td>
+					<td>Heure Normale de l'Atlantique</td>
+					<td>North America</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HNC</a>
+					</td>
+					<td>Heure Normale du Centre</td>
+					<td>Central America</td>
+					<td>UTC - 6 hours</td>
+					<td><span class="timezone" id="UTC-0600">Sun 02:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HNC</a>
+					</td>
+					<td>Heure Normale du Centre</td>
+					<td>North America</td>
+					<td>UTC - 6 hours</td>
+					<td><span class="timezone" id="UTC-0600">Sun 02:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HNE</a>
+					</td>
+					<td>Heure Normale de l'Est</td>
+					<td>Central America</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HNE</a>
+					</td>
+					<td>Heure Normale de l'Est</td>
+					<td>Caribbean</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HNE</a>
+					</td>
+					<td>Heure Normale de l'Est</td>
+					<td>North America</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HNP</a>
+					</td>
+					<td>Heure Normale du Pacifique</td>
+					<td>North America</td>
+					<td>UTC - 8 hours</td>
+					<td><span class="timezone" id="UTC-0800">Sun 00:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HNR</a>
+					</td>
+					<td>Heure Normale des Rocheuses</td>
+					<td>North America</td>
+					<td>UTC - 7 hours</td>
+					<td><span class="timezone" id="UTC-0700">Sun 01:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HNT</a>
+					</td>
+					<td>Heure Normale de Terre-Neuve</td>
+					<td>North America</td>
+					<td>UTC - 3:30 hours</td>
+					<td><span class="timezone" id="UTC-0330">Sun 05:03</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">HNY</a>
+					</td>
+					<td>Heure Normale du Yukon</td>
+					<td>North America</td>
+					<td>UTC - 9 hours</td>
+					<td><span class="timezone" id="UTC-0900">Sun 23:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">HOVT</a>
+					</td>
+					<td>Hovd Time</td>
+					<td>Asia</td>
+					<td>UTC + 7 hours</td>
+					<td><span class="timezone" id="UTC+0700">Sun 15:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">I</a>
+					</td>
+					<td>India Time Zone</td>
+					<td>Military</td>
+					<td>UTC + 9 hours</td>
+					<td><span class="timezone" id="UTC+0900">Sun 17:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">ICT</a>
+					</td>
+					<td>Indochina Time</td>
+					<td>Asia</td>
+					<td>UTC + 7 hours</td>
+					<td><span class="timezone" id="UTC+0700">Sun 15:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">IDT</a>
+					</td>
+					<td>Israel Daylight Time</td>
+					<td>Asia</td>
+					<td>UTC + 3 hours</td>
+					<td><span class="timezone" id="UTC+0300">Sun 11:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">IOT</a>
+					</td>
+					<td>Indian Chagos Time</td>
+					<td>Indian Ocean</td>
+					<td>UTC + 6 hours</td>
+					<td><span class="timezone" id="UTC+0600">Sun 14:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">IRDT</a>
+					</td>
+					<td>Iran Daylight Time</td>
+					<td>Asia</td>
+					<td>UTC + 4:30 hours</td>
+					<td><span class="timezone" id="UTC+0430">Sun 12:39</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">IRKST</a>
+					</td>
+					<td>Irkutsk Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 9 hours</td>
+					<td><span class="timezone" id="UTC+0900">Sun 17:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">IRKT</a>
+					</td>
+					<td>Irkutsk Time</td>
+					<td>Asia</td>
+					<td>UTC + 9 hours</td>
+					<td><span class="timezone" id="UTC+0900">Sun 17:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">IRST</a>
+					</td>
+					<td>Iran Standard Time</td>
+					<td>Asia</td>
+					<td>UTC + 3:30 hours</td>
+					<td><span class="timezone" id="UTC+0330">Sun 11:39</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">IST</a>
+					</td>
+					<td>Israel Standard Time</td>
+					<td>Asia</td>
+					<td>UTC + 2 hours</td>
+					<td><span class="timezone" id="UTC+0200">Sun 10:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">IST</a>
+					</td>
+					<td>India Standard Time</td>
+					<td>Asia</td>
+					<td>UTC + 5:30 hours</td>
+					<td><span class="timezone" id="UTC+0530">Sun 13:39</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">IST</a>
+					</td>
+					<td>Irish Standard Time</td>
+					<td>Europe</td>
+					<td>UTC + 1 hour</td>
+					<td><span class="timezone" id="UTC+0100">Sun 09:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">JST</a>
+					</td>
+					<td>Japan Standard Time</td>
+					<td>Asia</td>
+					<td>UTC + 9 hours</td>
+					<td><span class="timezone" id="UTC+0900">Sun 17:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">K</a>
+					</td>
+					<td>Kilo Time Zone</td>
+					<td>Military</td>
+					<td>UTC + 10 hours</td>
+					<td><span class="timezone" id="UTC+1000">Sun 18:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">KGT</a>
+					</td>
+					<td>Kyrgyzstan Time</td>
+					<td>Asia</td>
+					<td>UTC + 6 hours</td>
+					<td><span class="timezone" id="UTC+0600">Sun 14:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">KRAST</a>
+					</td>
+					<td>Krasnoyarsk Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">KRAT</a>
+					</td>
+					<td>Krasnoyarsk Time</td>
+					<td>Asia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">KST</a>
+					</td>
+					<td>Korea Standard Time</td>
+					<td>Asia</td>
+					<td>UTC + 9 hours</td>
+					<td><span class="timezone" id="UTC+0900">Sun 17:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">KUYT</a>
+					</td>
+					<td>Kuybyshev Time</td>
+					<td>Europe</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">L</a>
+					</td>
+					<td>Lima Time Zone</td>
+					<td>Military</td>
+					<td>UTC + 11 hours</td>
+					<td><span class="timezone" id="UTC+1100">Sun 19:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">LHDT</a>
+					</td>
+					<td>Lord Howe Daylight Time</td>
+					<td>Australia</td>
+					<td>UTC + 11 hours</td>
+					<td><span class="timezone" id="UTC+1100">Sun 19:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">LHST</a>
+					</td>
+					<td>Lord Howe Standard Time</td>
+					<td>Australia</td>
+					<td>UTC + 10:30 hours</td>
+					<td><span class="timezone" id="UTC+1030">Sun 18:39</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">LINT</a>
+					</td>
+					<td>Line Islands Time</td>
+					<td>Pacific</td>
+					<td>UTC + 14 hours</td>
+					<td><span class="timezone" id="UTC+1400">Sun 22:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">M</a>
+					</td>
+					<td>Mike Time Zone</td>
+					<td>Military</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">MAGST</a>
+					</td>
+					<td>Magadan Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">MAGT</a>
+					</td>
+					<td>Magadan Time</td>
+					<td>Asia</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">MART</a>
+					</td>
+					<td>Marquesas Time</td>
+					<td>Pacific</td>
+					<td>UTC - 9:30 hours</td>
+					<td><span class="timezone" id="UTC-0930">Sun 23:03</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">MAWT</a>
+					</td>
+					<td>Mawson Time</td>
+					<td>Antarctica</td>
+					<td>UTC + 5 hours</td>
+					<td><span class="timezone" id="UTC+0500">Sun 13:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">MDT</a>
+					</td>
+					<td>Mountain Daylight Time</td>
+					<td>North America</td>
+					<td>UTC - 6 hours</td>
+					<td><span class="timezone" id="UTC-0600">Sun 02:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">MESZ</a>
+					</td>
+					<td>Mitteleurop鋓sche Sommerzeit</td>
+					<td>Europe</td>
+					<td>UTC + 2 hours</td>
+					<td><span class="timezone" id="UTC+0200">Sun 10:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">MEZ</a>
+					</td>
+					<td>Mitteleurop鋓sche Zeit</td>
+					<td>Africa</td>
+					<td>UTC + 1 hour</td>
+					<td><span class="timezone" id="UTC+0100">Sun 09:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">MHT</a>
+					</td>
+					<td>Marshall Islands Time</td>
+					<td>Pacific</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">MMT</a>
+					</td>
+					<td>Myanmar Time</td>
+					<td>Asia</td>
+					<td>UTC + 6:30 hours</td>
+					<td><span class="timezone" id="UTC+0630">Sun 14:39</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">MSD</a>
+					</td>
+					<td>Moscow Daylight Time</td>
+					<td>Europe</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">MSK</a>
+					</td>
+					<td>Moscow Standard Time</td>
+					<td>Europe</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">MST</a>
+					</td>
+					<td>Mountain Standard Time</td>
+					<td>North America</td>
+					<td>UTC - 7 hours</td>
+					<td><span class="timezone" id="UTC-0700">Sun 01:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">MUT</a>
+					</td>
+					<td>Mauritius Time</td>
+					<td>Africa</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">MVT</a>
+					</td>
+					<td>Maldives Time</td>
+					<td>Asia</td>
+					<td>UTC + 5 hours</td>
+					<td><span class="timezone" id="UTC+0500">Sun 13:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">MYT</a>
+					</td>
+					<td>Malaysia Time</td>
+					<td>Asia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">N</a>
+					</td>
+					<td>November Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 1 hour</td>
+					<td><span class="timezone" id="UTC-0100">Sun 07:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">NCT</a>
+					</td>
+					<td>New Caledonia Time</td>
+					<td>Pacific</td>
+					<td>UTC + 11 hours</td>
+					<td><span class="timezone" id="UTC+1100">Sun 19:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">NDT</a>
+					</td>
+					<td>Newfoundland Daylight Time</td>
+					<td>North America</td>
+					<td>UTC - 2:30 hours</td>
+					<td><span class="timezone" id="UTC-0230">Sun 06:03</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">NFT</a>
+					</td>
+					<td>Norfolk Time</td>
+					<td>Australia</td>
+					<td>UTC + 11:30 hours</td>
+					<td><span class="timezone" id="UTC+1130">Sun 19:39</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">NOVST</a>
+					</td>
+					<td>Novosibirsk Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 7 hours</td>
+					<td><span class="timezone" id="UTC+0700">Sun 15:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">NOVT</a>
+					</td>
+					<td>Novosibirsk Time</td>
+					<td>Asia</td>
+					<td>UTC + 6 hours</td>
+					<td><span class="timezone" id="UTC+0600">Sun 14:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">NPT</a>
+					</td>
+					<td>Nepal Time</td>
+					<td>Asia</td>
+					<td>UTC + 5:45 hours</td>
+					<td><span class="timezone" id="UTC+0545">Sun 13:48</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">NST</a>
+					</td>
+					<td>Newfoundland Standard Time</td>
+					<td>North America</td>
+					<td>UTC - 3:30 hours</td>
+					<td><span class="timezone" id="UTC-0330">Sun 05:03</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">NUT</a>
+					</td>
+					<td>Niue Time</td>
+					<td>Pacific</td>
+					<td>UTC - 11 hours</td>
+					<td><span class="timezone" id="UTC-1100">Sun 21:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">NZDT</a>
+					</td>
+					<td>New Zealand Daylight Time</td>
+					<td>Antarctica</td>
+					<td>UTC + 13 hours</td>
+					<td><span class="timezone" id="UTC+1300">Sun 21:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">NZDT</a>
+					</td>
+					<td>New Zealand Daylight Time</td>
+					<td>Pacific</td>
+					<td>UTC + 13 hours</td>
+					<td><span class="timezone" id="UTC+1300">Sun 21:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">NZST</a>
+					</td>
+					<td>New Zealand Standard Time</td>
+					<td>Antarctica</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">NZST</a>
+					</td>
+					<td>New Zealand Standard Time</td>
+					<td>Pacific</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">O</a>
+					</td>
+					<td>Oscar Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 2 hours</td>
+					<td><span class="timezone" id="UTC-0200">Sun 06:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">OMSST</a>
+					</td>
+					<td>Omsk Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 7 hours</td>
+					<td><span class="timezone" id="UTC+0700">Sun 15:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">OMST</a>
+					</td>
+					<td>Omsk Standard Time</td>
+					<td>Asia</td>
+					<td>UTC + 7 hours</td>
+					<td><span class="timezone" id="UTC+0700">Sun 15:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">P</a>
+					</td>
+					<td>Papa Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">PDT</a>
+					</td>
+					<td>Pacific Daylight Time</td>
+					<td>North America</td>
+					<td>UTC - 7 hours</td>
+					<td><span class="timezone" id="UTC-0700">Sun 01:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">PET</a>
+					</td>
+					<td>Peru Time</td>
+					<td>South America</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">PETST</a>
+					</td>
+					<td>Kamchatka Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">PETT</a>
+					</td>
+					<td>Kamchatka Time</td>
+					<td>Asia</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">PGT</a>
+					</td>
+					<td>Papua New Guinea Time</td>
+					<td>Pacific</td>
+					<td>UTC + 10 hours</td>
+					<td><span class="timezone" id="UTC+1000">Sun 18:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">PHOT</a>
+					</td>
+					<td>Phoenix Island Time</td>
+					<td>Pacific</td>
+					<td>UTC + 13 hours</td>
+					<td><span class="timezone" id="UTC+1300">Sun 21:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">PHT</a>
+					</td>
+					<td>Philippine Time</td>
+					<td>Asia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">PKT</a>
+					</td>
+					<td>Pakistan Standard Time</td>
+					<td>Asia</td>
+					<td>UTC + 5 hours</td>
+					<td><span class="timezone" id="UTC+0500">Sun 13:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">PMDT</a>
+					</td>
+					<td>Pierre &amp; Miquelon Daylight Time</td>
+					<td>North America</td>
+					<td>UTC - 2 hours</td>
+					<td><span class="timezone" id="UTC-0200">Sun 06:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">PMST</a>
+					</td>
+					<td>Pierre &amp; Miquelon Standard Time</td>
+					<td>North America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">PONT</a>
+					</td>
+					<td>Pohnpei Standard Time</td>
+					<td>Pacific</td>
+					<td>UTC + 11 hours</td>
+					<td><span class="timezone" id="UTC+1100">Sun 19:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">PST</a>
+					</td>
+					<td><span class="highlight">Pacific Standard Time</span></td>
+					<td>North America</td>
+					<td>UTC - 8 hours</td>
+					<td><span class="timezone" id="UTC-0800">Sun 00:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">PST</a>
+					</td>
+					<td>Pitcairn Standard Time</td>
+					<td>Pacific</td>
+					<td>UTC - 8 hours</td>
+					<td><span class="timezone" id="UTC-0800">Sun 00:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">PT</a>
+					</td>
+					<td>Tiempo del Pac韋ico</td>
+					<td>North America</td>
+					<td>UTC - 8 hours</td>
+					<td><span class="timezone" id="UTC-0800">Sun 00:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">PWT</a>
+					</td>
+					<td>Palau Time</td>
+					<td>Pacific</td>
+					<td>UTC + 9 hours</td>
+					<td><span class="timezone" id="UTC+0900">Sun 17:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">PYST</a>
+					</td>
+					<td>Paraguay Summer Time</td>
+					<td>South America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">PYT</a>
+					</td>
+					<td>Paraguay Time</td>
+					<td>South America</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">Q</a>
+					</td>
+					<td>Quebec Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 4 hours</td>
+					<td><span class="timezone" id="UTC-0400">Sun 04:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">R</a>
+					</td>
+					<td>Romeo Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 5 hours</td>
+					<td><span class="timezone" id="UTC-0500">Sun 03:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">RET</a>
+					</td>
+					<td>Reunion Time</td>
+					<td>Africa</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">S</a>
+					</td>
+					<td>Sierra Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 6 hours</td>
+					<td><span class="timezone" id="UTC-0600">Sun 02:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">SAMT</a>
+					</td>
+					<td>Samara Time</td>
+					<td>Europe</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">SAST</a>
+					</td>
+					<td>South Africa Standard Time</td>
+					<td>Africa</td>
+					<td>UTC + 2 hours</td>
+					<td><span class="timezone" id="UTC+0200">Sun 10:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">SBT</a>
+					</td>
+					<td>Solomon IslandsTime</td>
+					<td>Pacific</td>
+					<td>UTC + 11 hours</td>
+					<td><span class="timezone" id="UTC+1100">Sun 19:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">SCT</a>
+					</td>
+					<td>Seychelles Time</td>
+					<td>Africa</td>
+					<td>UTC + 4 hours</td>
+					<td><span class="timezone" id="UTC+0400">Sun 12:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">SGT</a>
+					</td>
+					<td>Singapore Time</td>
+					<td>Asia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">SRT</a>
+					</td>
+					<td>Suriname Time</td>
+					<td>South America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">SST</a>
+					</td>
+					<td>Samoa Standard Time</td>
+					<td>Pacific</td>
+					<td>UTC - 11 hours</td>
+					<td><span class="timezone" id="UTC-1100">Sun 21:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">T</a>
+					</td>
+					<td>Tango Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 7 hours</td>
+					<td><span class="timezone" id="UTC-0700">Sun 01:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">TAHT</a>
+					</td>
+					<td>Tahiti Time</td>
+					<td>Pacific</td>
+					<td>UTC - 10 hours</td>
+					<td><span class="timezone" id="UTC-1000">Sun 22:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">TFT</a>
+					</td>
+					<td>French Southern and Antarctic Time</td>
+					<td>Indian Ocean</td>
+					<td>UTC + 5 hours</td>
+					<td><span class="timezone" id="UTC+0500">Sun 13:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">TJT</a>
+					</td>
+					<td>Tajikistan Time</td>
+					<td>Asia</td>
+					<td>UTC + 5 hours</td>
+					<td><span class="timezone" id="UTC+0500">Sun 13:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">TKT</a>
+					</td>
+					<td>Tokelau Time</td>
+					<td>Pacific</td>
+					<td>UTC - 10 hours</td>
+					<td><span class="timezone" id="UTC-1000">Sun 22:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">TLT</a>
+					</td>
+					<td>East Timor Time</td>
+					<td>Asia</td>
+					<td>UTC + 9 hours</td>
+					<td><span class="timezone" id="UTC+0900">Sun 17:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">TMT</a>
+					</td>
+					<td>Turkmenistan Time</td>
+					<td>Asia</td>
+					<td>UTC + 5 hours</td>
+					<td><span class="timezone" id="UTC+0500">Sun 13:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">TVT</a>
+					</td>
+					<td>Tuvalu Time</td>
+					<td>Pacific</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">U</a>
+					</td>
+					<td>Uniform Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 8 hours</td>
+					<td><span class="timezone" id="UTC-0800">Sun 00:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">ULAT</a>
+					</td>
+					<td>Ulaanbaatar Time</td>
+					<td>Asia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">UYST</a>
+					</td>
+					<td>Uruguay Summer Time</td>
+					<td>South America</td>
+					<td>UTC - 2 hours</td>
+					<td><span class="timezone" id="UTC-0200">Sun 06:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">UYT</a>
+					</td>
+					<td>Uruguay Time</td>
+					<td>South America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">UZT</a>
+					</td>
+					<td>Uzbekistan Time</td>
+					<td>Asia</td>
+					<td>UTC + 5 hours</td>
+					<td><span class="timezone" id="UTC+0500">Sun 13:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">V</a>
+					</td>
+					<td>Victor Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 9 hours</td>
+					<td><span class="timezone" id="UTC-0900">Sun 23:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">VET</a>
+					</td>
+					<td>Venezuelan Standard Time</td>
+					<td>South America</td>
+					<td>UTC - 4:30 hours</td>
+					<td><span class="timezone" id="UTC-0430">Sun 04:03</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">VLAST</a>
+					</td>
+					<td>Vladivostok Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 11 hours</td>
+					<td><span class="timezone" id="UTC+1100">Sun 19:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">VLAT</a>
+					</td>
+					<td>Vladivostok Time</td>
+					<td>Asia</td>
+					<td>UTC + 11 hours</td>
+					<td><span class="timezone" id="UTC+1100">Sun 19:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">VUT</a>
+					</td>
+					<td>Vanuatu Time</td>
+					<td>Pacific</td>
+					<td>UTC + 11 hours</td>
+					<td><span class="timezone" id="UTC+1100">Sun 19:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">W</a>
+					</td>
+					<td>Whiskey Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 10 hours</td>
+					<td><span class="timezone" id="UTC-1000">Sun 22:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">WAST</a>
+					</td>
+					<td>West Africa Summer Time</td>
+					<td>Africa</td>
+					<td>UTC + 2 hours</td>
+					<td><span class="timezone" id="UTC+0200">Sun 10:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">WAT</a>
+					</td>
+					<td>West Africa Time</td>
+					<td>Africa</td>
+					<td>UTC + 1 hour</td>
+					<td><span class="timezone" id="UTC+0100">Sun 09:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">WDT</a>
+					</td>
+					<td>Western Daylight Time</td>
+					<td>Australia</td>
+					<td>UTC + 9 hours</td>
+					<td><span class="timezone" id="UTC+0900">Sun 17:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">WEST</a>
+					</td>
+					<td>Western European Summer Time</td>
+					<td>Africa</td>
+					<td>UTC + 1 hour</td>
+					<td><span class="timezone" id="UTC+0100">Sun 09:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">WEST</a>
+					</td>
+					<td>Western European Summer Time</td>
+					<td>Europe</td>
+					<td>UTC + 1 hour</td>
+					<td><span class="timezone" id="UTC+0100">Sun 09:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">WESZ</a>
+					</td>
+					<td>Westeurop鋓sche Sommerzeit</td>
+					<td>Africa</td>
+					<td>UTC + 1 hour</td>
+					<td><span class="timezone" id="UTC+0100">Sun 09:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">WET</a>
+					</td>
+					<td>Western European Time</td>
+					<td>Africa</td>
+					<td>UTC</td>
+					<td><span class="timezone" id="UTC+0000">Sun 08:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">WET</a>
+					</td>
+					<td>Western European Time</td>
+					<td>Europe</td>
+					<td>UTC</td>
+					<td><span class="timezone" id="UTC+0000">Sun 08:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">WEZ</a>
+					</td>
+					<td>Westeurop鋓sche Zeit</td>
+					<td>Europe</td>
+					<td>UTC</td>
+					<td><span class="timezone" id="UTC+0000">Sun 08:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">WFT</a>
+					</td>
+					<td>Wallis and Futuna Time</td>
+					<td>Pacific</td>
+					<td>UTC + 12 hours</td>
+					<td><span class="timezone" id="UTC+1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">WGST</a>
+					</td>
+					<td>Western Greenland Summer Time</td>
+					<td>North America</td>
+					<td>UTC - 2 hours</td>
+					<td><span class="timezone" id="UTC-0200">Sun 06:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">WGT</a>
+					</td>
+					<td>West Greenland Time</td>
+					<td>North America</td>
+					<td>UTC - 3 hours</td>
+					<td><span class="timezone" id="UTC-0300">Sun 05:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">WIB</a>
+					</td>
+					<td>Western Indonesian Time</td>
+					<td>Asia</td>
+					<td>UTC + 7 hours</td>
+					<td><span class="timezone" id="UTC+0700">Sun 15:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">WIT</a>
+					</td>
+					<td>Eastern Indonesian Time</td>
+					<td>Asia</td>
+					<td>UTC + 9 hours</td>
+					<td><span class="timezone" id="UTC+0900">Sun 17:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">WITA</a>
+					</td>
+					<td>Central Indonesian Time</td>
+					<td>Asia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">WST</a>
+					</td>
+					<td>Western Sahara Summer Time</td>
+					<td>Africa</td>
+					<td>UTC + 1 hour</td>
+					<td><span class="timezone" id="UTC+0100">Sun 09:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">WST</a>
+					</td>
+					<td>Western Standard Time</td>
+					<td>Australia</td>
+					<td>UTC + 8 hours</td>
+					<td><span class="timezone" id="UTC+0800">Sun 16:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">WST</a>
+					</td>
+					<td>West Samoa Time</td>
+					<td>Pacific</td>
+					<td>UTC + 13 hours</td>
+					<td><span class="timezone" id="UTC+1300">Sun 21:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">WT</a>
+					</td>
+					<td>Western Sahara Standard Time</td>
+					<td>Africa</td>
+					<td>UTC</td>
+					<td><span class="timezone" id="UTC+0000">Sun 08:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">X</a>
+					</td>
+					<td>X-ray Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 11 hours</td>
+					<td><span class="timezone" id="UTC-1100">Sun 21:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">Y</a>
+					</td>
+					<td>Yankee Time Zone</td>
+					<td>Military</td>
+					<td>UTC - 12 hours</td>
+					<td><span class="timezone" id="UTC-1200">Sun 20:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">YAKST</a>
+					</td>
+					<td>Yakutsk Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 10 hours</td>
+					<td><span class="timezone" id="UTC+1000">Sun 18:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">YAKT</a>
+					</td>
+					<td>Yakutsk Time</td>
+					<td>Asia</td>
+					<td>UTC + 10 hours</td>
+					<td><span class="timezone" id="UTC+1000">Sun 18:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">YAPT</a>
+					</td>
+					<td>Yap Time</td>
+					<td>Pacific</td>
+					<td>UTC + 10 hours</td>
+					<td><span class="timezone" id="UTC+1000">Sun 18:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">YEKST</a>
+					</td>
+					<td>Yekaterinburg Summer Time</td>
+					<td>Asia</td>
+					<td>UTC + 6 hours</td>
+					<td><span class="timezone" id="UTC+0600">Sun 14:21</span></td>
+				</tr>
+				<tr class="c1">
+					<td><a href="javascript:void(0);">YEKT</a>
+					</td>
+					<td>Yekaterinburg Time</td>
+					<td>Asia</td>
+					<td>UTC + 6 hours</td>
+					<td><span class="timezone" id="UTC+0600">Sun 14:21</span></td>
+				</tr>
+				<tr class="c0">
+					<td><a href="javascript:void(0);">Z</a>
+					</td>
+					<td>Zulu Time Zone</td>
+					<td>Military</td>
+					<td>UTC</td>
+					<td><span class="timezone" id="UTC+0000">Sun 08:21</span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+<ul class="ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all" role="listbox" aria-activedescendant="ui-active-menuitem" style="z-index: 1; top: 0px; left: 0px; display: none; "></ul><ul class="ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all" role="listbox" aria-activedescendant="ui-active-menuitem" style="z-index: 1; top: 0px; left: 0px; display: none; "></ul><div class="time-picker" style="display: none; "><ul><li>00:00</li><li>00:30</li><li>01:00</li><li>01:30</li><li>02:00</li><li>02:30</li><li>03:00</li><li>03:30</li><li>04:00</li><li>04:30</li><li>05:00</li><li>05:30</li><li>06:00</li><li>06:30</li><li>07:00</li><li>07:30</li><li>08:00</li><li>08:30</li><li>09:00</li><li>09:30</li><li>10:00</li><li>10:30</li><li>11:00</li><li>11:30</li><li>12:00</li><li>12:30</li><li>13:00</li><li>13:30</li><li>14:00</li><li>14:30</li><li>15:00</li><li>15:30</li><li>16:00</li><li>16:30</li><li>17:00</li><li>17:30</li><li>18:00</li><li>18:30</li><li>19:00</li><li>19:30</li><li>20:00</li><li>20:30</li><li>21:00</li><li>21:30</li><li>22:00</li><li>22:30</li><li>23:00</li><li>23:30</li></ul></div></body></html>

@@ -1,0 +1,86 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+	<meta name="keywords" content="jquery,ui,easy,easyui,web">
+	<meta name="description" content="test">
+	<title>RSS Reader Demo - jQuery EasyUI</title>
+	<link rel="stylesheet" type="text/css" href="../../easyui13/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../../easyui13/themes/icon.css">
+	<style type="text/css">
+		.rtitle{
+			font-size:18px;
+			font-weight:bold;
+			padding:5px 10px;
+			background:#336699;
+			color:#fff;
+		}
+		.group{
+			background:url('images/group.png') no-repeat;
+		}
+		.userlist{
+			background:url('images/userlist.png') no-repeat;
+		}
+		.online{
+			background:url('images/online.png') no-repeat;
+		}
+		.offline{
+			background:url('images/offline.png') no-repeat;
+		}
+	</style>
+	<script type="text/javascript" src="../../easyui13/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="../../easyui13/jquery.easyui.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#t-channels').tree({
+				url: 'data/channels.json'
+			});
+			$('#tt').datagrid({
+				url: 'data/datagrid_data3.json',
+				title: '消息列表',
+				width: 830,
+				height: 430,
+				fitColumns: false,
+				columns:[[
+					{field:'user',title:'发送者',width:50},
+					{field:'message',title:'消息',width:680},
+					{field:'pubdate',title:'时间',width:50,align:'left'}
+				]]
+
+			});
+			$("#send").click(function(){
+				var msg=$("#message").val();
+				apendMessage(msg);
+			});
+		});
+
+		function apendMessage(msg){
+				var now=new Date();
+				$('#tt').datagrid('appendRow',{
+							user:'james',
+							message:msg,
+							pubdate:now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()
+				});
+				$('#tt').datagrid('acceptChanges');
+		}
+
+	</script>
+</head>
+<body>
+<div style="float:left;width:830px;">
+	<div>
+		<table id="tt"></table>
+	</div>
+	<div>
+		<form method="post" action="">
+		<input type="text" name="message" id="message" value="what do you want to say?" style="width:750px;">
+		<input type="button" id="send" value="say">
+		</form>
+	</div>
+</div>
+<div style="float:left;width:150px;">
+	<ul id="t-channels" url="data/channels.json"></ul>
+</div>
+</body>
+</html>

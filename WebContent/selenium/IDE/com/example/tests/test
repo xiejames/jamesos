@@ -1,0 +1,17 @@
+package com.example.tests;
+
+import com.thoughtworks.selenium.*;
+import org.testng.annotations.*;
+import static org.testng.Assert.*;
+import java.util.regex.Pattern;
+
+public class test extends SeleneseTestNgHelper {
+	@Test public void testTest() throws Exception {
+		selenium.open("/mailregAll/reg0.jsp?from=126mail/");
+		selenium.click("id=regBtn");
+		selenium.click("id=vcode_img");
+		selenium.type("id=verifyInp", "如跑");
+		assertEquals(selenium.getAlert(), "");
+		selenium.click("id=regBtn");
+	}
+}

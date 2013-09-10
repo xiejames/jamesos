@@ -1,0 +1,364 @@
+<html>
+<body style="width:1200px;">
+<fieldset><legend><span style='color:red;'>无尺度网络：增长+优先连接</span></legend>
+初始节点数N：<input type="text" id="initN" value="2" style='width:50px;'>
+每个新节点增加的连接数：<input type="text" id="k" value="2" style='width:50px;'>
+最大节点数：<input type="text" id="N" value="50" style='width:50px;' > 
+<input type="button" id='init' value="刷新" onclick="init();" >
+<input type="button" id='add' value="增加一个节点" onclick="addOneNode();">
+<input type="button" id='addAll' value="一步到位" onclick="addAllNode();">
+<span style='float:right;'>网络平均集聚系数:<span id='c' >0</span></span>
+
+</fieldset>
+<br/>
+<div style="width:1000px;">
+<canvas id="canvas" width="1200" height="600" style='border:1px dashed black;'>
+<span style='color:red;'>错误提示：IE6.0浏览器不支持HTML5的canvas，请用firefox或者chrome或者IE9.0浏览器</span>
+</canvas>
+<br/>
+<span>
+画板参数：
+点大小：<input type="text" id="PointR" value="8">
+<input type="text" id="X0" value="300" style='display:none;'>
+<input type="text" id="Y0" value="300" style='display:none;'>
+</span>
+<div style="float:right;">
+分布图参数：
+点大小：<input type="text" id="PointR2" value="2">
+<input type="checkbox" id="chartType1" value="1" onclick='calcDegreeDistribute()' checked>点状图
+<input type="checkbox" id="chartType2" value="2" onclick='calcDegreeDistribute()'>柱状图
+</div>
+
+</div>
+<script type="text/javascript">
+
+var R=280; //圈半径
+var PointR=8;//点大小半径
+var X0=300;//原点位置
+var Y0=300;//原点位置
+var CYCLE_GAP=100;//圈与圈间距
+var context;
+var x,y;
+var N,initN,k;
+var lastestNodeIndex;
+var edgeMatrix;
+function validateInputParam(){
+		if (/^[\d]+$/.test(document.getElementById('N').value) 
+	&& /^[\d]+$/.test(document.getElementById('k').value)
+	&& /^[\d]+$/.test(document.getElementById('initN').value)
+	) 
+	{ 
+	}else{
+		alert("只能输入正整数!");
+		document.getElementById('N').focus();
+        return false; 
+    } 
+	N=parseInt(document.getElementById('N').value);
+	initN=parseInt(document.getElementById('initN').value);
+	k=parseInt(document.getElementById('k').value);
+
+	PointR=parseInt(document.getElementById('PointR').value);
+	X0=parseInt(document.getElementById('X0').value);
+	Y0=parseInt(document.getElementById('Y0').value);
+	return true;
+}
+
+function init(){
+		document.getElementById('add').disabled='';
+	if(validateInputParam()==false){
+		return;
+	}
+	var MAX_CYCLE=N;//点集一圈最大点数
+	x=new Array();
+	y=new Array();
+	lastestNodeIndex=initN;
+	edgeMatrix=new Array();
+
+	for(var i=0;i<N;i++){
+		var cycleNum=Math.floor(i/MAX_CYCLE);
+		var positionNum=i%MAX_CYCLE;//比如：11%10=1，5%10=5
+		var divide=N>MAX_CYCLE?MAX_CYCLE:N;	
+		x[i]=Math.round(X0+CYCLE_GAP*cycleNum+Math.cos(Math.PI*2*positionNum/divide)*R);
+		y[i]=Math.round(Y0+CYCLE_GAP*cycleNum+Math.sin(Math.PI*2*positionNum/divide)*R);
+		edgeMatrix[i]=new Array();
+	}
+	var canvas = document.getElementById("canvas");  
+	if (canvas && canvas.getContext) {  
+		context = canvas.getContext("2d");  
+		context.clearRect(0, 0, 1800, 1800);
+		context.save();
+		for (var i=0;i<initN;i++){ 
+			context.fillStyle = 'rgb('+(50*i)+','+(255-80*i)+','+10*i+')';
+			context.fillStyle = 'rgb('+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+')';
+
+			context.beginPath();
+			context.globalCompositeOperation='source-over';
+			context.arc(x[i],y[i],PointR,0,Math.PI*2,true);
+			context.fill();
+			if(Math.random()<0.5){
+				context.beginPath();
+				if(i==0){
+					context.moveTo(x[i],y[i]);
+				}else{
+					context.moveTo(x[i-1],y[i-1]);
+					context.lineTo(x[i],y[i]);
+					edgeMatrix[i].push(i-1);
+					edgeMatrix[i-1].push(i);
+					context.stroke();
+				}
+			}
+		}
+		
+	}
+	context.restore();
+}
+function addAllNode(){
+	init();
+	for(var i=initN;i<N;i++){
+		addNode();
+	}
+		calcDegreeDistribute();
+
+
+}
+function addOneNode(){
+	if(lastestNodeIndex==initN){
+		init();
+	}
+	addNode();
+	calcDegreeDistribute();
+
+
+}
+function addNode(){
+	
+	var k=parseInt(document.getElementById('k').value);
+	context.fillStyle = 'rgb('+(50*lastestNodeIndex)+','+(255-80*lastestNodeIndex)+','+10*lastestNodeIndex+')';
+	context.fillStyle = 'rgb('+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+')';
+
+	context.beginPath();
+	context.globalCompositeOperation='source-over';
+	context.arc(x[lastestNodeIndex],y[lastestNodeIndex],PointR,0,Math.PI*2,true);
+	context.fill();
+	context.beginPath();
+	context.globalCompositeOperation='destination-over';
+	for(var j=1;j<=k;j++){
+		var dest;
+		if(lastestNodeIndex==initN){
+			dest=j-1;
+		}else{
+			dest=getNextByNodeTrend();
+		}
+		
+		while(edgeMatrix[dest].contains(lastestNodeIndex)){
+			dest=getNextByNodeTrend();
+		}
+		if(edgeMatrix[lastestNodeIndex].contains(dest)) continue;
+		if(edgeMatrix[dest].contains(lastestNodeIndex))continue;
+		edgeMatrix[dest].push(lastestNodeIndex);
+		edgeMatrix[lastestNodeIndex].push(dest);
+		
+		context.beginPath();
+		context.moveTo(x[lastestNodeIndex],y[lastestNodeIndex]);
+		if(Math.abs(dest-lastestNodeIndex)==1 || (dest==0 && lastestNodeIndex==N-1) || N< 200){
+			context.lineTo(x[dest],y[dest]);
+		}else{
+			context.quadraticCurveTo(X0,Y0,x[dest],y[dest]);
+		}
+
+		context.stroke();
+	}
+	lastestNodeIndex++;
+	if(lastestNodeIndex>N-1) {
+		document.getElementById('add').disabled='disabled';
+	}
+	statistics();
+}
+function getNextByNodeTrend(){
+	var degree=new Array();
+	var totalDegree=0;
+	for(var i=0;i<lastestNodeIndex;i++){
+		totalDegree+=edgeMatrix[i].length;
+		degree[i]=edgeMatrix[i].length;
+	}
+	if(totalDegree==0){//所有节点度为0，孤立的，那就随便选
+		return Math.round(lastestNodeIndex*Math.random())-1;
+	}	
+
+	var ids=degree.sort();
+	var rand=Math.random();
+	var addTillNow=0;
+	for(var i=0;i<degree.length;i++){
+		addTillNow+=degree[i];
+		if(rand<(addTillNow/totalDegree)){
+			return ids[i];
+		}
+	}
+	return ids[ids.length-1];//last one
+}
+
+function calcDegreeDistribute(){
+	var degree=new Array();
+	var totalDegree=0;
+	for(var i=0;i<lastestNodeIndex;i++){
+		totalDegree+=edgeMatrix[i].length;
+		degree[i]=edgeMatrix[i].length;
+	}
+	degree.sort();
+	drawDegreeDiagram(degree,N);
+}
+function drawDegreeDiagram(degree,N){
+	var chartType1 = document.getElementById("chartType1");  
+	var chartType2 = document.getElementById("chartType2");  
+	var isType1Checked=false;
+	var isType2Checked=false;
+    if (chartType1.type=="checkbox" && chartType1.checked){    
+		isType1Checked=true;
+    }   
+    if (chartType2.type=="checkbox" && chartType2.checked){    
+		isType2Checked=true;
+    }  
+	var canvas = document.getElementById("canvas");  
+	var maxDegree=degree[degree.length-1];
+	if (canvas && canvas.getContext) {  
+		context = canvas.getContext("2d");  
+		context.beginPath();
+		context.clearRect(600, 0, 1200, 600);
+		context.save();
+		context.fillStyle='black';
+		context.font = "28px Times New Roman";
+		context.moveTo(1120,100);
+		context.fillText("度分布图",1000,100);
+		context.font = "18px Times New Roman";
+		context.moveTo(1120,500);
+		context.fillText("节点编号",1120,500);
+		context.lineTo(700,500);
+		context.fillText("0",690,510);
+		context.lineTo(700,50);
+		context.fillText("度大小",700,50);
+		context.stroke();
+
+		var divideX=5;
+		var divideY=5;
+		//刻度
+		for (var i=1;i<=divideX ;i++ )
+		{
+			context.beginPath();
+			context.moveTo(700+400*i/(divideX-1),500);
+			context.lineTo(700+400*i/(divideX-1),500-10);
+			context.stroke();
+		}
+
+		for (var i=1;i<=divideY ;i++ )
+		{
+			context.beginPath();
+			context.moveTo(700,500-400*i/(divideY-1));
+			context.lineTo(700+10,500-400*i/(divideY-1));
+			context.stroke();
+		}
+		//标度
+		var unity=Math.round((maxDegree+(divideX-1))/(divideX-1));
+		var unitx=Math.round((degree.length+(divideX-1))/(divideX-1));
+		for (var i=1;i<=divideX ;i++ )
+		{
+			context.beginPath();
+			context.moveTo(700+400*i/(divideX-1),500);
+			context.fillText(unitx*i,700+400*i/(divideX-1),500+20);
+			context.stroke();
+		}
+		for (var i=1;i<=divideY ;i++ )
+		{
+			context.beginPath();
+			context.moveTo(700,500-400*i/(divideY-1));
+			context.fillText(unity*i,700-20,500-400*i/(divideX-1));
+			context.stroke();
+		}
+		//数据
+		var PointR2=document.getElementById("PointR2").value;
+		for (var i=degree.length-1;i>=0 ;i-- )
+		{
+			context.beginPath();
+			context.moveTo(700+Math.round(400*(degree.length-i)/N),500-Math.round(100*degree[i]/unity));
+			if(isType1Checked){
+				context.fillStyle='black';
+				context.arc(700+Math.round(400*(degree.length-i)/N),500-Math.round(100*degree[i]/unity),PointR2,0,Math.PI*2,true);
+				context.fill();
+			}
+			if(isType2Checked){
+				context.beginPath();
+				context.fillStyle = 'rgb('+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+')';
+				context.rect(700+Math.round(400*(degree.length-i)/N)-5,500-Math.round(100*degree[i]/unity)+10,1,Math.round(100*degree[i]/unity)-10);
+				context.fill();
+			}
+		}
+
+	}
+	context.restore();
+}
+
+
+//集聚系数
+function statistics(){
+		var C=calcConcentrationDistribute();
+		var totalC=0;
+		for (var j=0;j<C.length ; j++)
+		{
+			totalC+=C[j];
+		}
+		document.getElementById('c').innerHTML=totalC/C.length;
+}
+function calcConcentrationDistribute(){
+	var Concentration=new Array();
+	for(var i=0;i<lastestNodeIndex;i++){//第一层节点
+		Concentration[i]=0;
+		var subPointArray=edgeMatrix[i];//第二层所有节点 
+		
+		for(var ia=0;ia<subPointArray.length;ia++){
+			var subId=subPointArray[ia];//遍历第二层节点
+			for(var iaa=0;iaa<subPointArray.length;iaa++){//当前第二层节点序号之后的节点
+				if(edgeMatrix[subId].contains(subPointArray[iaa])){
+					Concentration[i]++;
+				}
+			}
+			
+		}
+		if(Concentration[i]!=0) {
+			Concentration[i]=Concentration[i]/(subPointArray.length*(subPointArray.length-1));
+		}
+	}
+	return Concentration;
+}
+</script> 
+
+<script language='javascript'>
+//function assistant
+Array.prototype.contains=function(obj){
+    for(var i=0; i<this.length; i++) {  
+        if(this[i]==obj) {  
+            return true;  
+        }  
+    }  
+    return false;  
+}
+Array.prototype.sort=function(){
+	var ids=new Array();
+    for(var i=0; i<this.length; i++) {  
+		ids[i]=i;
+	}
+    for(var i=0; i<this.length; i++) {  
+		for(var j=0; j<this.length-i-1; j++) {  
+			if(this[j]>this[j+1]){
+				var d=ids[j];
+				ids[j]=ids[j+1];
+				ids[j+1]=d;
+				var dd = this[j];
+　　			this[j] = this[j+1];
+　　			this[j+1] = dd; 
+			}
+		}
+    } 
+    return ids;  
+}
+</script>
+</body>
+</html>

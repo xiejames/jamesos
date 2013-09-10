@@ -1,0 +1,1 @@
+function _guishjQueryExStart(){	CreateElement('expjQuery', 'main', 'JS/jQuery/HTML experiments ...');	$('#expjQuery').jWindow({		width: 600,		height: 400,		resizable: true,		theme: 'jwindow',		minimizable: true	});	$('#expjQuery div.container').load('apps/exp/jqueryex/content.app', function(){		ShowElement('expjQuery', 'Experiments browser loaded!', 'Have fun!');	})}

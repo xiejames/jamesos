@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=GBK" />
+	<meta name="description" content="test" />
+	<meta name="keywords" content="" />
+	<meta name="author" content="James Xie" />
+	<title>Welcome</title>
+
+  <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+
+	<link rel="stylesheet" href="css/loading.css" />
+	<link rel="stylesheet" href="css/general.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="images/skins/cm_default/style.css" media="screen" />
+	<link rel="stylesheet" href="window-themes/dbh/dbh.css" media="screen" />
+	
+	<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+
+	<script type="text/javascript" src="js/flexify.min.js"></script>
+	<script type='text/javascript' src='js/ensure.min.js'></script>
+	<script type='text/javascript' src='js/loadscripts.js'></script>	
+	<script>
+	$(document).ready(function(){
+		// Webkit (works in Safari5.1 and Chrome 15)
+		document.webkitRequestFullScreen();
+		//document.webkitCancelFullScreen(); 
+
+		// Firefox 10
+		//document.mozRequestFullScreen();
+		//document.mozCancelFullScreen();
+	});
+	</script>
+</head>
+<body>	
+	<div id="wallpaper">		
+		
+		<div id="loadingcontainer">
+		</div>		
+		
+		<div id="medusa" onclick="AnimateMedusa(this, 50, 100, 2800, 200, 150, 30, false);" style="position: absolute; top: 400px; left: 800px; width: 320px; height: 337px; z-index: 20;">
+			<img id="medusaimg" src="images/wallpapers/themedusa.png" width="320" height="337" />
+		</div>
+		<div id="fireflower1" style="position: absolute; bottom: 0px; left: 0px; z-index: 21; background: url(images/wallpapers/fireflower1.png) no-repeat; width: 700px; height: 518px">
+		</div>
+		<div id="fireflower2" style="position: absolute; bottom: 0px; right: 0px; z-index: 21; background: url(images/wallpapers/fireflower2.png) no-repeat; width: 600px; height: 353px">
+		</div>
+		<div id="grass" style="position: absolute; bottom: 0px; left: 40%; width: 600px; height: 716px; background: url(images/wallpapers/grass.png) no-repeat; z-index: 19;">
+		</div>
+
+		
+		<div id="main">	
+			<div id="bckgexperiments" style="position: absolute;width: 100%; height: 100%; overflow: hidden;display: none;">
+			</div>		
+			<ul id="widgetscontainer">
+		<!--
+				<li>					
+					<div id="wdgfindonweb" onmouseover="this.style.borderColor='#fff'" onmouseout="this.style.borderColor='transparent'" style="-moz-border-radius: 10px; -webkit-border-radius: 10px;border-radius: 10px;width: 205px;margin-left:7px; background: url(images/graytrans.png); border: solid 2px transparent;padding: 5px 5px 0px 5px; text-align: center; position: relative;">
+						<div style="text-shadow:0 0 0.2em #111111, 0 0 0.2em #111111, 0 0 0.2em #111111;color:#FF9600;font-size:14px;font-family:Arial,Verdana,Helvetica;font-weight: bold; margin-bottom: 4px;">Search the web&nbsp;<i>!</i></div>
+						<div style="height: 30px;"><input type="text" style="float: left;width:125px;padding: 0px 4px 0px 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; border-radius: 5px;border:0pt none; height: 22px;background-color: #fff;" /><button type="button" id="wdgwebsearch" style="position: absolute; left: 140px;top:21px;" onclick="alert('Not implemented yet')"><span><span>Search</span></span></button></div>
+					</div>
+				</li> 
+							-->
+
+			</ul>
+					
+			<div id="galleryIcon" onclick="StartUConst()" class="icon handle" title="相册" rel="58,22">		
+				<div class="img"></div>
+				<div class="name">相册</div>			
+			</div>
+			<div id="blogIcon" class="icon handle" title="Open my blog" onclick="StartBlog()" rel="158,22">
+
+				<div class="img"></div>
+				<div class="name">新浪博客</div>
+			</div>
+			<div id="aboutIcon" class="icon handle" onclick="StartAbout()" title="About this site and its owner" rel="254,22">
+				<div class="img"></div>
+				<div class="name">我是谁</div>
+			</div>
+			<div id="contacIcon" class="icon handle" title="You can contact me here" onclick="StartContact()" rel="558,22">
+				<div class="img"></div>
+				<div class="name">联系我</div>
+			</div>
+			<div id="atlasIcon" onclick="StartBaiduMap()" class="icon handle" title="Baidu地图" rel="58,230">
+				<div class="img"></div>
+				<div class="name">Baidu地图</div>
+			</div>
+			<div id="html5canvasIcon" onclick="StartHTML5('network1','全耦合网络')" class="icon handle" title="HTML5-cavas实例1" rel="58,230">
+				<div class="img"></div>
+				<div class="name">HTML5-cavas实例1</div>
+			</div>
+			<div id="html5canvasIcon" onclick="StartHTML5('network2','最近邻网络')" class="icon handle" title="HTML5-cavas实例2" rel="58,230">
+				<div class="img"></div>
+				<div class="name">HTML5-cavas实例2</div>
+			</div>
+			<div id="html5canvasIcon" onclick="StartHTML5('network3','小世界网络')" class="icon handle" title="HTML5-cavas实例3" rel="58,230">
+				<div class="img"></div>
+				<div class="name">HTML5-cavas实例3</div>
+			</div>
+			<div id="html5canvasIcon" onclick="StartHTML5('network4','无标度网络')" class="icon handle" title="HTML5-cavas实例4" rel="58,230">
+				<div class="img"></div>
+				<div class="name">HTML5-cavas实例4</div>
+			</div>
+			<div id="html5geoIcon" onclick="StartHTML5('geo','地理位置定位')" class="icon handle" title="HTML5-地理位置定位" rel="58,230">
+				<div class="img"></div>
+				<div class="name">HTML5-地理位置定位</div>
+			</div>
+			<div id="html5gameIcon" onclick="StartHTML5('games','HTML5小游戏')" class="icon handle" title="HTML5小游戏" rel="58,230">
+				<div class="img"></div>
+				<div class="name">HTML5小游戏</div>
+			</div>
+			<div id="rssIcon" onclick="StartRSS()" class="icon handle" title="RSS" rel="58,230">
+				<div class="img"></div>
+				<div class="name">RSS</div>
+			</div>
+			<div id="worldtimeIcon" onclick="StartWorldTime()" class="icon handle" title="世界时间转换" rel="58,230">
+				<div class="img"></div>
+				<div class="name">世界时间转换</div>
+			</div>
+			<div id="chatIcon" onclick="StartChat(false)" class="icon handle" title="文字聊天室" rel="58,230">
+				<div class="img"></div>
+				<div class="name">文字聊天室</div>
+			</div>
+			<div id="videochatIcon" onclick="StartChat(true)" class="icon handle" title="视频聊天室" rel="58,230">
+				<div class="img"></div>
+				<div class="name">视频聊天室</div>
+			</div>
+			<div id="html5videoIcon" onclick="StartHTML5('html5video','HTML5 Video')" class="icon handle" title="HTML5 Video" rel="58,230">
+				<div class="img"></div>
+				<div class="name">HTML5 Video</div>
+			</div>
+			<div id="html5localstorageIcon" onclick="StartHTML5('html5localstorage','HTML5 本地存储')" class="icon handle" title="HTML5 本地存储" rel="58,230">
+				<div class="img"></div>
+				<div class="name">HTML5 本地存储</div>
+			</div>
+			
+			<div id='navcontainer'>			
+				<div id="navigation">
+			         <div class="title" onclick="StartHTML5('html5','canvas 实例：复杂网络')">
+			        	<div><span>HTML5</span></div>
+
+			        	<img alt="" title="" src="images/expcateg/html5.png" width="80" height="80" />
+					</div>
+			        <div class="title" onclick="StartUConst()">
+			        	<div><span>JS/jQuery</span></div>
+
+			        	<img alt="" title="" src="images/expcateg/jquery.png" width="80" height="80" />
+					</div>
+			        <div class="title" onclick="StartUConst()">
+			        	<div><span>Flash/Flex</span></div>
+						<img alt="" title="" src="images/expcateg/flexflash.png" width="80" height="80" />	
+					</div>
+			        <div class="title" onclick="StartUConst()">
+			        	<div><span>Other ...</span></div>
+
+						<img alt="" title="" src="images/user.png" width="80" height="80" />
+					</div>	
+					
+				</div>
+			</div>	
+			
+			
+			<!--div id="guishSpecials">
+				<div class="go3d" title="This effect is in VERY experimental phase !!!<br/>It is based on jQuery Roundabout plugin,<br />and it is VERY CPU hungry ;)">Go 3D <i>!</i></div>
+				<div class="go2d">Go 2D <i>!</i></div>
+				<div class="threeDoption" rel="lazySusan,false">Lazy Susan</div>
+
+				<div class="threeDoption" rel="theJuggler,false">The Juggler</div>
+				<div class="threeDoption" rel="figure8,false">Figure 8</div>
+				<div class="threeDoption" rel="waterWheel,false">Water Wheel</div>
+				<div class="threeDoption" rel="square,false">Square</div>
+				<div class="threeDoption" rel="conveyorBeltLeft,true">Conveyor Belt Left</div>
+				<div class="threeDoption" rel="conveyorBeltRight,true">Conveyor Belt Right</div>
+
+				<div class="threeDoption" rel="goodbyeCruelWorld,true">Goodbye Cruel World</div>
+				<div class="threeDoption" rel="diagonalRingLeft,false">Diagonal Ring Left</div>
+				<div class="threeDoption" rel="diagonalRingRight,false">Diagonal Ring Right</div>
+				<div class="threeDoption" rel="rollerCoaster,false">Roller Coaster</div>
+				<div class="threeDoption" rel="tearDrop,true">Tear Drop</div>
+			</div>
+
+			<div id="error3D">
+				<div>This effect requires three or more active windows!</div>
+			</div-->
+					
+		</div><!-- end main -->		
+		
+	</div><!-- end wallpaper -->
+	
+	
+	
+	<div id="startmenu">
+		<div class="starttop">
+			<img alt="" title="" src="images/user.png" width="32" height="32" /><div class="welcome">This is James' WebOS</div>
+
+		</div>
+		<div class="startmiddle">
+			<div class="startcontent">
+				<div class="leftside">
+					<a href="#" title="" onclick="$('.rscontainer').animate({left: 0},'fast');"><img alt="" title="Widgets" src="icons/custom/html5.png" />HTML5</a>
+					<a href="#" class="active" title="" onclick="$('.rscontainer').animate({left: -800},'fast');" ><img alt="" title="Play some 'REAL' games" src="jWindows/game_pad.png" />Games</a>
+				</div>
+				<div class="rightside">	
+					<div class="rscontainer">
+						<div class="html5canvas">			
+							<a href="#" title="" onclick="$('.rscontainer').animate({left: -200},'fast');">HTML5 Canvas</a>
+							<a href="#" title="" onclick="$('.rscontainer').animate({left: -400},'fast');">HTML5 GEO</a>
+							<a href="#" title="" onclick="$('.rscontainer').animate({left: -600},'fast');">HTML5 Video</a>
+						</div>
+						<div class="html5canvas">			
+							<a href="#" title="" onclick="StartHTML5('network1','全耦合网络')">全耦合网络</a>
+							<a href="#" title="" onclick="StartHTML5('network2','最近邻网络')">最近邻网络</a>
+							<a href="#" title="" onclick="StartHTML5('network3','小世界网络')">小世界网络</a>
+							<a href="#" title="" onclick="StartHTML5('network4','无标度网络')">无标度网络</a>
+						</div>
+						<div class="html5geo">			
+							<a href="#" title="" onclick="StartHTML5('geo','google地理位置定位')">地理位置定位</a>
+						</div>
+						<div class="html5geo">			
+							<a href="#" title="" onclick="StartHTML5('html5video','html5 video测试')">html5 video测试</a>
+						</div>
+						<div class="smgames">			
+							<a href="#" title="" onclick="StartManicMiner()">Manic Miner</a>
+							<a href="#" title="" onclick="StartTetris()">Tetris</a>
+							<a href="#" title="" onclick="StartSnake()">Snake</a>
+							<a href="#" title="" onclick="StartGames()">Puzzle</a>
+						</div>	
+					</div>	
+				</div>
+				<div class="bigwhite">	
+					<img title="Log out" alt="" width="48" height="48" style="float: right;" src="jWindows/power_black.png" />				
+				</div>
+			</div>
+
+		</div>
+		<div class="startbottom"></div> 
+	</div> 
+
+    <ul id="menu_1" class="jeegoocontext cm_default">
+        <li class="iconmini">
+			<span class="iconmini align"></span>
+            Align desktop icons
+            <ul>
+                <li class="iconmini" id="align_right"><span class="iconmini alignright"></span>to the right</li>
+                <li class="iconmini" id="align_left"><span class="iconmini alignleft"></span>to the left</li>
+
+            </ul>
+        </li>
+
+        <li class="iconmini">
+        	<span class="iconmini fontset"></span>
+            Setup icon fonts
+            <ul>
+                <li class="iconmini" id="style_italic"><span class="iconmini fontitalic"></span>Italic</li>
+                <li class="iconmini" id="style_normal"><span class="iconmini fontnormal"></span>Normal</li>
+
+				<li class="iconmini" id="style_color"><span class="iconmini fontcolor"></span>Color</li>
+				<li id="style_type">
+					Type
+					<ul>
+						<li id="style_arial">Arial</li>
+						<li id="style_verdana">Verdana</li>
+						<li id="style_courier">Courier new</li>
+
+						<li id="style_tahoma">Tahoma</li>
+					</ul>
+				</li>
+            </ul>
+        </li>
+		<li class="iconmini">
+			<span class="iconmini winshadow"></span>
+			Windows shadow
+			<ul>
+
+				<li class="iconmini" id="wshaddowon" title="CPU hungry!"><span class="iconmini winshadowon"></span>On</li>
+				<li class="iconmini" id="wshaddowoff"><span class="iconmini winshadowoff"></span>Off</li>
+			</ul>
+		</li>
+        <li id="system_settings" class="iconmini">
+        	<span class="iconmini settings"></span>
+            Properties
+        </li>
+
+		<li id="show_desktop" class="iconmini" onclick="ShowDesktop()">
+			<span class="iconmini desktop"></span>
+			Show desktop
+		</li>
+    </ul>	
+	
+	<div id="lamp" style="width: 4000px; height: 4000px; position: absolute; left: -1500px; top: -1500px; cursor: none; display: none">
+		<div style="width: 100%; height: 1900px; clear: both; background-color: #000"></div>
+		<div style="width: 1900px;height: 200px; float: left; background-color: #000">
+			</div><div id="lampcenter" style="background: url(images/wallpapers/lamp.png); width: 200px; height: 200px;float: left"></div>
+		<div style="width: 1900px;height: 200px; float: left; background-color: #000"></div>
+
+		<div style="width: 100%; height: 1900px; clear: both; background-color: #000"></div>
+	</div>
+	<div id="scrpass" class="glass" style="width: 195px; height: 100px; left: 40%; top: 40%; display: none" >
+		<div class="top">
+			<div class="topl"></div>
+			<div class="topc">
+				<div class="wintitle" style="color: #000">
+					<img alt="" title="" src="css/images/key_16.png" height="16" width="16"/><div style="color: #fff">Enter password</div>
+
+				</div>
+				<div class="topr">
+				</div>
+			</div>
+		</div>
+		<div class="middle">
+			<div class="content">
+				<div class="container">					
+					<div style="width: 100%; height: 100%;">
+
+					<input style="width: 130px; text-align: center; font-weight: bold; font-family: Verdana; font-size: 11pt; border: 1px solid #aaa; margin-left: 32px; margin-top: 10px" type="text" id="pass" /><br /><br />
+					<input style="width: 80px; margin-left: 58px" type="button" value="Confirm" onclick="if($('#pass').val() == 'guish'){$('#lamp').stop();$('#errmsg').html('');$('#pass').val('');$('#scrpass').css({display: 'none'});$('#lamp').css({display: 'none'});$(this).html('Put the lights out');}else{$('#errmsg').html('Nope!');}" /><br />
+					<br /><div id="errmsg" style="margin: auto; width: 50px; text-align: center"></div>
+				</div>  
+			</div>			
+		</div>
+		<div class="bottom">
+			<div class="bottomc">
+				<div class="bottomr">
+				</div>
+
+			</div>
+		</div>				
+	</div>
+	</div>	
+	
+	<div id="topbar">
+			<!--<div id="clock">00:00:00</div>		-->
+			<div id="start" onclick="$('#startmenu').toggle();"></div>
+			<div class="leftpane">
+				<img onclick="ShowDesktop()" alt="" src="jWindows/22x22/places/user-desktop.png" width="22" height="22" title="Show desktop" />
+				<img id="tbwebsearch" onclick="StartWebBrowser()" alt="" src="jWindows/22x22/apps/internet-web-browser.png" width="22" height="22" title="Web browser" />
+
+				<img onclick="StartCalculator()" alt="" src="jWindows/22x22/apps/accessories-calculator.png" width="22" height="22" title="Calculator" />
+				<img onclick="SetUpDesktop()" alt="" src="jWindows/22x22/categories/preferences-system.png" width="22" height="22" title="Settings" />
+				<img onclick="StartCoolClock()" alt="" src="apps/coolclock/clock.png" title="clock" />
+			</div>
+			<div id="topbarcont" style="position: relative;float: left;overflow: auto; height: 100%; padding-top: 4px"><ul id="tcontainer"></ul></div>			
+	</div>
+	
+	
+	
+	
+	<div id='loadingZone'><div class='welcomemsg'></div><div class='fblogo' title=''></div><div id='loadingSms'>LOADING -</div><div id='infoLoading'></div><div id='infoProgress'>0%</div><br class='clear' /><div id='loadingBar'><div id='progressBar'>&nbsp;</div></div></div>	
+</body>
+</html>

@@ -1,0 +1,137 @@
+#experiment {
+	position: relative; 
+	top: 200px; 
+	left: 200px; 
+	width: 700px; 
+	height: 500px; 
+	border: solid 1px #888; 
+	overflow: hidden; 
+	background: url(../../../images/exp/grunge3.png) ; 
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+#experiment div.windowframe1 {
+	position: absolute; 
+	top: 60px; 
+	left: 30px; 
+	width: 150px; 
+	height: 150px; 
+	border: solid 2px #000; 
+	overflow: hidden; 
+	background: url(../images/agsst301.jpg) fixed; 
+	-moz-border-radius: 90px;
+	-webkit-border-radius: 70px;
+	border-radius: 90px;
+}
+#dragonfly {
+	position: absolute; 
+	bottom: 25px; 
+	right: 15px; 
+	width: 150px; 
+	height: 146px;
+	background: url(../images/transparent/dragonfly.png) no-repeat;
+	z-index: 10;
+}
+#windowOne, #windowOneClone {
+	position: absolute; 
+	top: 11px; 
+	left: 11px; 
+	width: 125px; 
+	height: 125px; 
+	border: solid 2px #000; 
+	overflow: hidden; 
+	-moz-border-radius: 90px;
+	-webkit-border-radius: 60px;
+	border-radius: 90px;
+	background-image: url(../images/transparent/agsst215.png);
+	background-attachment: fixed; 
+}
+
+#windowTwo, #windowTwoClone{
+	-moz-border-radius-topleft: 90px; 
+	-moz-border-radius-topright: 90px;
+	-webkit-border-top-left-radius: 70px;
+	-webkit-border-top-right-radius: 70px;
+	border-radius-topleft: 90px;
+	border-radius-topright: 90px;
+	position: absolute; 
+	bottom: 10px; 
+	right: 10px; 
+	width: 150px; 
+	height: 150px; 
+	border: solid 2px #000; 
+	overflow: hidden; 
+	background-attachment: fixed; 
+	background-image: url(../images/transparent/agsst295.png);
+}
+#windowTwoClone{ background-attachment: scroll;}
+#windowframe2{
+	position: absolute; 
+	bottom: 60px; 
+	right: 30px; 
+	width: 175px; 
+	height: 175px; 
+	border: solid 2px #000; 
+	overflow: hidden; 
+	background: url(../images/agsst132.jpg) fixed; 
+	-moz-border-radius-topleft: 90px; 
+	-moz-border-radius-topright: 90px;
+	-webkit-border-top-right-radius: 80px;
+	-webkit-border-top-left-radius: 80px;
+	border-radius-topright: 90px;
+	border-radius-topleft: 90px;
+}
+.bizwin {
+	position: absolute; 
+	bottom: 60px; 
+	left: 30px; 
+	width: 50px; 
+	height: 50px; 
+	border: solid 2px #000;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	background-attachment: fixed; 
+}
+#exdragbottom {
+	border-top: solid 1px #888;
+	height: 30px; 
+	background: url(../images/agsst135.jpg) fixed; 
+	position: absolute; 
+	bottom: 4px; 
+	left: 4px;
+	right: 4px;
+	-moz-border-radius-bottomleft: 9px;
+	-moz-border-radius-bottomright: 9px;
+	-webkit-border-bottom-left-radius: 9px;
+	-webkit-border-bottom-right-radius: 9px;
+	border-radius-bottomleft: 9px;
+	border-radius-bottomright: 9px;
+	overflow: hidden;
+}
+#exdrag{
+	border-bottom: solid 1px #888; 
+	height: 30px; 
+	background: url(../images/agsst135.jpg) fixed; 
+	position: absolute; 
+	top: 4px; 
+	left: 4px;
+	right: 4px;
+	-moz-border-radius-topleft: 9px;
+	-moz-border-radius-topright: 9px;
+	-webkit-border-top-left-radius: 9px;
+	-webkit-border-top-right-radius: 9px;
+	border-radius-topleft: 9px;
+	border-radius-topright: 9px;
+	overflow: hidden;
+}
+.exclose {
+	width: 22px; 
+	height: 22px; 
+	position: absolute; 
+	right: 4px; 
+	top: 4px; 
+	background: url(../images/cross-glow.png) no-repeat; 
+	display: block;
+}

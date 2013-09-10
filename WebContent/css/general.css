@@ -1,0 +1,1371 @@
+@CHARSET "UTF-8";
+/******* GENERAL RESET *******/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em,
+font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody,
+ tfoot, thead, tr, th, td {
+border:0pt none;
+font-family:inherit;
+font-size: 100%;
+font-style:inherit;
+font-weight:inherit;
+margin:0pt;
+padding:0pt;
+vertical-align:baseline;
+}
+body{
+	background: #639cd4;
+	line-height:14px;
+	font-size: 11px;
+	font-family: Tahoma, Arial,  Verdana, Helvetica, sans-serif;
+	margin:0pt;
+	overflow: hidden;
+	cursor: default !Important;
+	
+}
+html,body{
+	height:100%;
+	overflow: hidden;
+}
+.clear{
+	clear: both;
+	height: 0;
+	visibility: hidden;
+	display: block;
+}
+a{
+	text-decoration: none;
+	outline: none;
+}
+#main #html5Icon{
+	top: 158px;
+	left: 230px;
+}
+#main #html5Icon div.img{
+	background: url(../icons/custom/html5.png) no-repeat center 4px;
+	width:80px;
+	height:80px;
+}
+#main #html5geoIcon{
+	top: 158px;
+	left: 230px;
+}
+#main #html5geoIcon div.img{
+	background: url(../icons/custom/html5geo.png) no-repeat center 4px;
+	width:80px;
+	height:80px;
+}
+#main #html5canvasIcon{
+	top: 158px;
+	left: 230px;
+}
+#main #html5canvasIcon div.img{
+	background: url(../icons/custom/html5canvas.png) no-repeat center 4px;
+	width:80px;
+	height:80px;
+}
+#main #html5gameIcon{
+	top: 158px;
+	left: 230px;
+}
+#main #html5gameIcon div.img{
+	background: url(../icons/custom/html5game.png) no-repeat center 4px;
+	width:80px;
+	height:80px;
+}
+#main #rssIcon{
+	top: 158px;
+	left: 230px;
+}
+#main #rssIcon div.img{
+	background: url(../icons/custom/rss.png) no-repeat center 4px;
+	width:80px;
+	height:80px;
+}
+#main #chatIcon{
+	top: 158px;
+	left: 230px;
+}
+#main #chatIcon div.img{
+	background: url(../icons/custom/chat.png) no-repeat center 4px;
+	width:80px;
+	height:80px;
+}
+#main #videochatIcon{
+	top: 158px;
+	left: 230px;
+}
+#main #videochatIcon div.img{
+	background: url(../icons/custom/videochat.png) no-repeat center 4px;
+	width:80px;
+	height:80px;
+}
+#main #worldtimeIcon{
+	top: 158px;
+	left: 230px;
+}
+#main #worldtimeIcon div.img{
+	background: url(../icons/custom/worldclock.png) no-repeat center 4px;
+	width:80px;
+	height:80px;
+}
+#main #html5videoIcon{
+	top: 158px;
+	left: 230px;
+}
+#main #html5videoIcon div.img{
+	background: url(../icons/custom/html5video.png) no-repeat center 4px;
+	width:80px;
+	height:80px;
+}
+#main #html5localstorageIcon{
+	top: 158px;
+	left: 230px;
+}
+#main #html5localstorageIcon div.img{
+	background: url(../icons/custom/html5localstorage.png) no-repeat center 4px;
+	width:80px;
+	height:80px;
+}
+
+
+#wallpaper{	
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	overflow: hidden;
+	background-color: #000;
+	display: none;
+}
+#main{
+	background: #000 no-repeat scroll top center;
+	height: 100%; width: 100%;	
+	overflow: hidden;
+	position: absolute;
+	top: 0px;
+	z-index: 50;
+}
+
+#main div.icon{
+	min-width: 48px;
+	min-height: 48px;
+	padding: 4px;
+	margin: 0pt auto;
+	text-align: left;
+	position: absolute;
+	display: none;
+	width: 80px;
+	cursor: pointer;	
+	border: solid 2px transparent;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	z-index: 50;
+}
+#main div.icon:hover{
+    border: 2px solid #639cd4 !Important; 
+	background: url(../images/graytrans.png);
+	-moz-box-shadow: 0px 0px 0.7em #639cd4;
+	-webkit-box-shadow: 0px 0px 0.7em #639cd4;
+	box-shadow: 0px 0px 0.7em #639cd4;
+}
+
+/*
+@font-face {
+	font-family: Brock Script;
+	src: url("BrockScript.ttf");
+	font-style : normal;
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: Dragonfly;
+	src: url("fonts/dragonfly.ttf");
+	font-style : normal;
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: Fontonastick;
+	src: url("fonts/fontonastick.ttf");
+	font-style : normal;
+	font-weight: normal;
+}
+@font-face {
+	font-family: hce;
+	src: url("fonts/hce.ttf");
+	font-style : normal;
+	font-weight: normal;
+}
+*/
+
+#main div.icon div.name{
+	margin-top: 52px;
+	text-align: center;	
+	background-color: #639cd4;
+	padding: 1px 5px 2px 5px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 0px 0px 0.5em #000;
+	-webkit-box-shadow: 0px 0px 0.5em #000;
+	box-shadow: 0px 0px 0.5em #000;
+	color: #000;
+	text-shadow: 0 0 0.2em #87F, 0 0 0.2em #87F, 0 0 0.2em #87F;
+	font-size: 100%;
+	position: relative;
+	font-family: Tahoma, Arial;
+}
+#main div.icon div.img{
+	width: 100%;
+	height: 100%;
+	display: block;
+	position: absolute;
+	left: 0px;
+}
+div.widgetlauncher{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: url(../icons/custom/widget.png) no-repeat 60px 1px;
+}
+#main #galleryIcon div.img{
+	background: transparent url(../icons/Tango/48/mimetypes/media-image.png) no-repeat scroll center 4px;
+}
+#main #galleryIcon{	
+	top: 62px;
+	left: 22px;
+}
+#main #blogIcon div.img{
+	background: transparent url(../icons/Tango/48/apps/internet-blog.png) no-repeat scroll center 4px;
+}
+#main #blogIcon{	
+	top: 158px;
+	left: 22px;
+}
+#main #aboutIcon div.img{
+	background: transparent url(images/info_48.png) no-repeat scroll center 4px;
+}
+#main #aboutIcon{	
+	top: 254px;
+	left: 22px;
+}
+#main #settingsIcon div.img{
+	background: transparent url(images/advancedsettings.png) no-repeat scroll center 8px;
+}
+#main #settingsIcon {	
+	top: 350px;
+	left: 22px;
+}
+#main #calcIcon div.img{
+	background: url(../icons/Tango/48/apps/utilities-calculator.png) no-repeat center 4px;
+}
+#main #calcIcon{
+	top: 454px;
+	left: 22px;
+}
+#main #experimentsIcon{
+	top: 62px;
+	left: 126px;
+}
+#main #experimentsIcon div.img{
+	background: url(../icons/Tango/48/categories/science.png) no-repeat scroll center 4px;
+}
+#main #contacIcon{
+	top:558px;
+	left: 22px;
+}
+#main #contacIcon div.img{
+	background: url(../icons/Tango/48/actions/mail-message-new.png) no-repeat scroll center 4px;
+}
+#main #gamesIcon{
+	top: 158px;
+	left: 126px;
+}
+#main #gamesIcon div.img{
+	background: url(../icons/Oxygen/48/categories/games.png) no-repeat scroll center 4px;
+}
+#main #commentsIcon{
+	top: 254px;
+	left: 126px;
+}
+#main #commentsIcon div.img{
+	background: url(../icons/Oxygen/48/apps/utilities-text-editor.png) no-repeat center 4px;
+}
+#main #linksIcon{
+	top: 350px;
+	left: 126px;
+}
+#main #linksIcon div.img{
+	background: url(../icons/Tango/48/actions/link.png) no-repeat center 4px;
+}
+#main #clockwdgIcon{
+	top: 454px;
+	left: 126px;
+}
+#main #clockwdgIcon div.img{
+	background: url(../icons/crystal_project/48/apps/ktimer.png) no-repeat center 4px;
+}
+#main #eyeswdgIcon{
+	top: 558px;
+	left: 126px;
+}
+#main #eyeswdgIcon div.img{
+	background: url(../icons/custom/eyes.png) no-repeat center 4px;
+}
+#main #weatherwdgIcon{
+	top: 62px;
+	left: 230px;
+}
+#main #weatherwdgIcon div.img{
+	background: url(../icons/custom/weather.png) no-repeat center 4px;
+}
+#main #atlasIcon{
+	top: 158px;
+	left: 230px;
+}
+#main #atlasIcon div.img{
+	background: url(../icons/custom/atlas.png) no-repeat center 4px;
+}
+#main #bmarkIcon div.img{
+	background: url(../icons/crystal_project/48/apps/keditbookmarks.png) no-repeat center 4px;
+}
+#main #bmarkIcon{
+	top: 254px;
+	left: 230px;
+}
+#watcherIcon{
+	top: 350px;
+	left: 230px;
+}
+#watcherIcon div.img{
+	background: url(../icons/custom/watcher.png) no-repeat center 0px;
+}
+
+#rightdesktopmenu{
+	background:#639cd4 url(../images/themes/guish-lightblue/images/window7/left.png) repeat-y top left;
+	width: 100px;
+	height: 100%;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+
+#error3D{
+	background: url(../images/graytrans.png);
+    -moz-border-radius:10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+	border-radius: 10px;
+	color: #639cd4;
+	text-shadow: 0px 0px 0.2em #000, 0px 0px 0.2em #000, 0px 0px 0.2em #000;
+	z-index: 999999;
+	position: absolute;
+	left: -260px;
+	bottom: 26px;
+	width: 220px; 
+	padding: 5px 5px 5px 25px;
+	font-size: 14px;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: center;
+	border: 1px solid #555;
+}
+#error3D div{
+	background: url(../icons/Tango/32/status/dialog-warning.png) no-repeat center left;
+	padding-left: 38px;
+}
+#guishSpecials{
+	position: absolute;
+	z-index:999999;
+	bottom: -417px;
+	left: 0px;
+	height: 440px;
+	width: 100px;
+	border-top: 1px solid #555;
+	border-right: 1px solid #555;
+	background: url(../images/graytrans.png);
+    -moz-border-radius:0px 10px 0px 0px;
+    -webkit-border-top-right-radius: 10px;
+    -khtml-border-top-right-radius: 10px;
+	border-radius: 10px;
+	letter-spacing:2px;
+    font-size:11px;
+    color:#639cd4;
+    text-shadow: 0px 0px 0.2em #111,0px 0px 0.2em #111, 0px 0px 0.2em #111; 
+    text-align:center;
+	font-weight: bold;
+}
+#guishSpecials .go3d,.go2d{
+	margin: auto;	
+	padding-top: 5px;
+	margin-bottom: 15px;
+	font-size:14px;
+	cursor: pointer;
+	font-family: Arial, Verdana, Helvetica;
+	color: #ff9600;
+}
+#guishSpecials .go2d{
+	color: #ccc;
+	display: none;
+	color: #66c2fc;
+}
+#guishSpecials .threeDoption{
+	clear:both;
+	margin:5px 3px 0px 3px;
+	border: 1px solid #639cd4;
+	padding: 1px 0px 3px 0px;
+	background: url(../images/graytrans.png);
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+/*     bottom widgets luncher   */
+div#navcontainer{
+	position: absolute;
+	bottom: 0px;
+	z-index:999999;
+	bottom: -112px;
+	width: 100%;
+}
+div#navigation {
+    position: relative;
+    margin: auto;   
+    width:721px;
+	top: -110px;
+}
+div#navigation div.title img{
+	position: absolute;
+	top: 20px;
+	left: 10px;
+	cursor: pointer;
+	opacity: 0;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+div#navigation div.title{
+    display: block;
+    float:left;
+	bottom: 0px;
+    width: 100px;
+    height: 25px;
+	position: relative;
+	padding-bottom:80px;
+	margin-left: 3px;
+}
+div#navigation  div.title div{
+    display: block;
+    float:left;
+	bottom: 0px;
+    width: 98px;
+    height: 25px;
+    background: url(../images/graytrans.png);
+    border:1px solid #555;
+    -moz-border-radius:10px 10px 0px 0px;
+    -webkit-border-top-right-radius: 10px;
+    -webkit-border-top-left-radius: 10px;
+    -khtml-border-top-right-radius: 10px;
+    -khtml-border-top-left-radius: 10px;
+	border-radius: 10px 10px 0px 0px;
+    text-decoration:none;
+    text-align:center;
+	font-weight: bold;
+    padding-bottom:80px;
+	padding-top: 4px;
+	position: relative;
+	-moz-box-shadow: 0px 0px 6px #639cd4;
+	-webkit-box-shadow: 0px 0px 6px #639cd4;
+	box-shadow: 0px 0px 6px #639cd4;
+	font-family: Tahoma,Arial;
+}
+
+div#navigation  div span{
+    font-size:11px;
+    color: #444;
+    text-shadow: 1px 0px 0.1em #639cd4,0px 1px 0.1em #639cd4,-1px 0px 0.1em #639cd4,0px -1px 0.1em #639cd4; 
+}
+
+
+/*    end bottom widgets luncher    */
+
+
+#topbar #start{
+	float: left;
+	background: transparent url(../images/startmenu/start/start.png) no-repeat;
+	width: 66px;
+	height: 25px;
+	cursor: pointer;
+	margin-top: 6px;
+}
+#topbar #start:hover{
+	background: transparent url(../images/startmenu/start/starthover.png) no-repeat;
+}
+#separator{
+	float: left;
+	width: 80%;
+	height: 28px;
+	margin-top: 3px;
+}
+.s1{
+   float: left;
+   border-left: dotted 2px #888;
+   width: 2px;
+   display: block;
+   height: 28px;
+   margin-top: 4px;
+}
+#tcontainer{
+   float: left;
+   height: 28px;
+   margin: 0px 0px 1px 4px;
+   overflow: hidden;
+   position: absolute;
+   list-style: none;
+   padding: 0;
+   border: none;
+}
+#loadingcontainer {
+	width: 240px;
+	height: auto;
+	right: 0px;
+	bottom: 0px;
+	position: absolute;
+	vertical-align: text-bottom;
+}
+#widgetscontainer{
+	width: 236px;
+	right: 0px;
+	top: 35px;
+	bottom: 0px;
+	position: absolute;
+	background: url(../images/bkg.png);
+	list-style: none;
+	padding: 2px 0px 0px 4px;
+	z-index: 49;
+}
+#widgetscontainer .placeHolder div { background-color: #aaa;border: dotted 1px #639cd4; width: 230px;}
+#widgetscontainer li{
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+#startmenu{
+    position: absolute;
+	top: 35px;
+	left: 0;
+	width: 434px;
+	height: 539px;
+	z-index: 6999;
+	display: none;
+}
+
+#startmenu .starttop{
+    background: url(../images/startmenu/starttop.png) no-repeat;
+	width: 434px;
+	height: 71px;
+}
+#startmenu .starttop img{
+	padding:5px;
+	float:left;
+}
+#startmenu .starttop .welcome{
+	font-weight:bold;
+	font-size: 12pt;
+	color: #000;
+	padding: 15px 10px 10px 10px;
+	float:left;
+	background: url(../images/startmenu/namebkg.png) repeat-x left bottom;
+}
+#startmenu .startmiddle{
+    background: url(../images/startmenu/startmiddle.png) repeat-y;
+	width: 434px;
+	height: 454px;	
+}
+#startmenu .startmiddle .startcontent{
+	width: 417px;
+	height:100%;
+	padding-left: 13px;
+}
+#startmenu .startmiddle .startcontent .leftside{
+	height: 100%;
+	width: 200px;
+	float: left;
+}
+iframe {
+	border: solid #639cd4F00 0px; 
+}
+#startmenu .startmiddle .startcontent .rightside{
+	height: 400px;
+	width: 200px;
+	float: right;
+	overflow: hidden;
+	display: inline-block;
+	position: relative;
+}
+#startmenu .rscontainer {
+	width: 1400px;
+	height: 100%;
+	position: relative;
+}
+#startmenu .rscontainer div{
+	float: left;
+	width: 200px;
+	height: 100%;
+}
+#startmenu .startmiddle .startcontent .leftside a{
+	background: url(../images/startmenu/app.png) no-repeat top left;
+	display: block;
+	width: 211px;
+	height: 50px;
+	float: left;
+	clear: both;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	color: #444;
+	font-size: 10pt;
+	font-weight: bold;
+	line-height: 47px;
+	text-shadow:0 1px 1px #000;
+}
+#startmenu .startmiddle .startcontent .leftside img{
+	margin-left: 10px;
+	margin-right: 10px;
+	float: left;
+}
+#startmenu .startmiddle .startcontent .leftside a:hover{
+	background: url(../images/startmenu/app.png) no-repeat bottom left;
+	color: #000;
+	text-shadow:0 1px 1px #777;
+}
+#startmenu .startmiddle .startcontent .leftside a.active{
+	background: url(../images/startmenu/app.png) no-repeat bottom left;
+	color: #000;
+	text-shadow:0 1px 1px #777;	
+}
+#startmenu .startmiddle .startcontent .rightside a{
+	background: url(../images/startmenu/startaction.png) no-repeat;
+	display: block;
+	width: 195px;
+	height: 28px;
+	float:right;
+	clear: both;
+	margin-bottom: 3px;
+	color: #000;
+	font-size: 10pt;
+	font-weight: bold;
+	text-align: center;
+	line-height: 25px;
+	text-shadow:0 1px 1px #639cd4;
+}
+#startmenu .startmiddle .startcontent .rightside a:hover{
+	background: url(../images/startmenu/startactionhover.png) no-repeat;
+	display: block;
+	width: 195px;
+	height: 28px;
+}
+#startmenu .startmiddle .startcontent .bigwhite{
+	background: url(../images/startmenu/bigwhite.png) no-repeat;
+	width: 193px;
+	height: 60px;
+	position: absolute;
+	bottom: 0px;
+	right: 5px;
+	padding-top: 6px;
+}
+#startmenu .startbottom{
+    background: url(../images/startmenu/startbottom.png) no-repeat;
+	width: 434px;
+	height: 14px;
+}
+
+#menu, #menuicon { position: absolute; top: 0;left: -200px; }
+
+
+.wintb {
+	display: block;
+	border: 1px solid #555; 
+	margin: 1px; 
+	overflow: hidden;
+	float: left; 
+	width: 120px; 	
+	height: 24px; 
+	font-family: arial,verdana,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	background: url(../jWindows/wintbactive.png); 	 
+	line-height: 24px; 
+	text-align: center;
+	border-radius:8px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	color: #639cd4;
+	text-shadow: 0 1px 1px #000;	
+	box-shadow: 0px 0px 5px #000 inset;
+	-moz-box-shadow: 0px 0px 5px #000 inset;
+	-webkit-box-shadow: 0px 0px 5px #000 inset;
+}
+.wintbcont {
+	overflow: hidden; 
+	position: relative; 
+	float: left; 
+	width: 124px; 	
+	height: 28px;
+	line-height: 22px;
+	display: none;
+	border-radius:8px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border: none;
+	border-color: transparent;
+}
+
+.wintbclose{
+	position: absolute;
+	top: 7px;
+	right: 5px;
+	background: url(../window-themes/close.gif) no-repeat;
+	height: 14px;
+	width: 15px;
+}
+
+.rightpane {
+	min-width: 500px;	
+	height: 100%;
+	overflow: hidden;
+}
+.leftpane {
+	padding-left: 4px;
+	width: 210px;
+	padding-top: 5px;
+	overflow: hidden;	
+	float: left;
+	margin-left: 5px;
+}
+.leftpane img{
+	margin-right: 1px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	padding: 2px;
+}
+
+#topbar{
+	width: 100%;
+	height: 35px;
+	background: url(../images/startmenu/startrepeat.png);
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 7000;
+	display: none;
+}
+
+#bottombar{
+	width: 100%;
+	height: 25px;
+	background: url(../images/startmenu/brepeat.png);
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 7005;
+}
+#bottombar span.title{
+	color: #639cd4;
+	text-shadow: 0px 0px 0.4em #111, 0px 0px 0.4em #111, 0px 0px 0.4em #111, 0px 0px 0.4em #111;
+	line-height: 24px;
+	font-weight: bold;
+	font-size: 12px;
+	cursor: pointer;
+	padding: 1px 3px 2px 4px;
+	border: solid 1px transparent;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+#bottombar span.title:hover{
+	text-shadow: 0px 0px 0.3em #aaa, 0px 0px 0.3em #aaa, 0px 0px 0.3em #aaa, 0px 0px 0.3em #aaa;
+	color: #000;
+	border: solid 1px #555;
+	background: url(../jwindows/whitetrans.png);
+}
+#bottombar span.separator{
+	text-shadow: 0px 0px 0.4em #111, 0px 0px 0.4em #111, 0px 0px 0.4em #111, 0px 0px 0.4em #111;
+	line-height: 24px;
+	color: #aaa;
+	font-size: 10px;
+	cursor: default;
+	margin-left: 2px;
+	margin-right: -2px;
+}
+#bottombar input{
+	float: right;
+	height: 14px;
+	width: 150px;
+	color: #888;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	border: solid 1px #555;
+	margin: 4px 5px;
+	padding-left: 4px;
+	font-size: 10px;
+}
+.bottomcontainer{
+	opacity: 0.0;
+	border: solid 1px #6c6e6c;
+	border-bottom: none;
+	position: absolute;
+	bottom: -410px;
+	z-index: 7004;
+	width: 200px;
+	height: 425px;
+	background: url(../jwindows/whitetrans.png);
+	left: 0px;
+	padding: 5px;
+	-moz-border-radius-topleft: 15px; -moz-border-radius-topright: 15px; -webkit-border-top-left-radius: 15px; -webkit-border-top-right-radius: 15px;border-radius-topleft: 15px; border-radius-topright: 15px;
+}
+.bcheader{
+	width: 100%;
+	height: 20px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	background-color: #444;
+}
+
+#sidebar {
+	background: url(../images/startmenu/tgray.png);
+	height: 100%;
+	z-index: 3;
+	position: relative;
+	top: 0;
+	right: 0;
+	float: right;
+}
+
+#pclock{
+	width: 100%;
+	height: 200px;
+	position: absolute;
+	bottom: 30px;
+}
+
+
+#tooltip {
+	position: absolute;
+	z-index: 9000;
+	color:#fcff00;
+	border: 2px solid #ffa800;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	background-color: #000;
+	padding: 2px 8px 4px 8px;
+	opacity: 0.85;
+	font-size: 8pt;
+	margin: 0;
+}
+
+.titleleft{
+	width: 10px;
+	height: 16px;
+	float: left;
+	margin-top: 5px;
+	background: url(../jWindows/titlecloud.png) no-repeat;
+}
+
+.titleright{
+	width: 10px;
+	height: 16px;
+	float: left;
+	margin-top: 5px;
+	background: url(../jWindows/titlecloud.png) 10px 0px;
+}
+
+.titletext{
+  line-height: 16px;
+  vertical-align: top;
+  float: left;
+  width: auto;
+  overflow: hidden;
+  text-align: left;
+  height: 16px;
+  background: url(../jWindows/titletext.png);
+  margin-top: 5px;
+  text-shadow: 0 1px 1px #555;
+}
+
+
+/*--------------------------------------------------------------------------------------------------
+  
+   Simply Buttons, version 1.0
+   (c) 2007-2009 Kevin Miller
+
+   This script is freely distributable under the terms of an MIT-style license.
+
+   BUTTON DEFINITIONS 
+  
+   Edit below at your own risk, everything done here is for a reason for cross browser
+   compatibility so that the.styledbuttons will appear identical in the tested browsers.
+   
+   Tested on: IE6 IE7 FF(PC/MAC) Safari SafariMobile Opera(PC/MAC)
+   
+--------------------------------------------------------------------------------------------------*/
+
+button::-moz-focus-inner { border: 0; }
+
+button,
+a.button,
+a.button:link,
+a.button:visited {
+  /*
+      Strip down the button and link elements to a base we can work with.
+  */
+  padding: 0 0 0 0;
+  margin: 0 1px 0 1px;
+  border: none;
+  display: block;
+  float: left;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  white-space: nowrap;
+  overflow: visible;
+  background-color: transparent;
+}
+
+  * html a.button,
+  * html a.button:link,
+  * html a.button:visited {
+    /*
+        IE6 fix to make link fit text.
+    */
+    width: 1%;
+  }
+
+  button, x:-moz-any-link {
+    /*
+        FF fix to make button spacing even across browsers.
+    */
+    margin: 0 0 0 0;
+	outline: none;
+  }
+
+  *:first-child+html button {
+    /*
+        Reset IE7 back to what it was for previous fix.
+    */
+    margin: 0 1px 0 1px;
+  }
+
+  button span,
+  a.button span,
+  a.button:link span,
+  a.button:visited span {
+    /*
+        Set the span tags to display: block, as they will work our background-image magic.
+    */
+    display: block;
+  }
+
+/*--------------------------------------------------------------------------------------------------
+  
+   CUSTOMIZATIONS 
+  
+   Edit below to change the look and feel of the buttons and even add more classes for
+   different looks and feels.
+   
+--------------------------------------------------------------------------------------------------*/
+
+button,
+a.button,
+a.button:link,
+a.button:visited {
+  /* 
+      HEIGHT - Total height of button. 
+  */
+  height: 26px; 
+
+  /*
+      NOTE - You must define the font here otherwise your buttons and links could end up diffrent.
+  */
+	font-family: "Helvetica Neue", Helvetica, clean, sans-serif;
+
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 13px;
+  color: #000;
+  /* text-shadow: 0px 1px 1px #000, 0px 1px 1px #000; */
+  outline: none;
+}
+
+  button.button_active,
+  a.button_active {
+  	outline: none;
+  }
+
+  button span,
+  a.button span,
+  a.button:link span,
+  a.button:visited span {
+    /* 
+        Right side padding fora.styledbutton (default). 
+    */
+    padding: 0 15px 0 0;
+
+    /* 
+        SPAN HEIGHT - This should be 2px smaller than the height set on the button (see HEIGHT).
+    */
+    height: 24px;
+
+    /*
+        We define our background top left and use the 'Sliding Doors' Technique for some fast loading buttons.
+    */
+    background: url(../images/bg_button_right_.png) no-repeat top right;
+  }
+
+  button span span,
+  a.button span span,
+  a.button:link span span,
+  a.button:visited span span {
+    /* 
+        Left side padding for button (default). 
+    */
+    padding: 0 0 0 13px;
+
+    /* 
+        SPAN HEIGHT - This should be 1px smaller than the height set on the button (see HEIGHT).
+    */
+    height: 24px;
+
+    /* 
+        SPAN LINE-HEIGHT - This should be 1px smaller than the height set on the button (see HEIGHT) and will 
+                            center the text vertcailly.
+    */
+    line-height: 22px;
+
+    /*
+        We define our background top left and use the 'Sliding Doors' Technique for some fast loading buttons.
+    */
+    background: url(../images/bg_button_left_.png) top left;
+  }
+
+  button:hover,
+  a.button:hover {
+	
+  }
+
+  button.submit span,
+  a.submit span,
+  a.submit:link span,
+  a.submit:visited span {
+  }
+
+  button.submit span span,
+  a.submit span span,
+  a.submit:link span span,
+  a.submit:visited span span {
+    /*
+        Give some extra space for the icon.
+    */
+    padding-left: 26px;
+
+    /*
+        Add in a left side piece with an icon.
+    */
+    background-image: url(../images/bg_button_left_submit.png);
+  }
+
+  button.submit:hover,
+  a.submit:hover {
+  }
+
+  button.cancel span,
+  a.cancel span,
+  a.cancel:link span,
+  a.cancel:visited span {
+  }
+
+  button.cancel span span,
+  a.cancel span span,
+  a.cancel:link span span,
+  a.cancel:visited span span {
+    /*
+        Give some extra space for the icon.
+    */
+    padding-left: 26px;
+
+    /*
+        Add in a left side piece with an icon.
+    */
+    background-image: url(../images/bg_button_left_cancel.png);
+  }
+
+  button.cancel:hover,
+  a.cancel:hover {
+  }
+
+  button:active span,
+  a:active:active span,
+  /*
+      'button_active' is the class used by SimplyButtons.js to create the button states in IE.
+  */
+  button.button_active span,
+  a.button_active:active span {
+    /*
+        Using the 'Sliding Doors' Technique we 'slide' the new button state into view.
+    */
+    background-position: bottom right;
+	outline: none;
+  }
+
+  button:active span span,
+  a:active:active span span,
+  /*
+      'button_active' is the class used by SimplyButtons.js to create the button states in IE.
+  */
+  button.button_active span span,
+  a.button_active:active span span {
+    /*
+        Using the 'Sliding Doors' Technique we 'slide' the new button state into view.
+    */
+    background-position: bottom left;
+	outline: none;
+	text-shadow: 0px 1px 1px #000;
+  }
+  
+  
+  
+  
+  #frm {
+		position: absolute;
+		height: 60%;
+		width: 70%;
+		left: 15%;
+		top: 20%;
+		font-size: 2em;
+		font-weight: bold;
+		font-family: verdana, arial;
+		overflow: hidden;
+		padding: 0.5em;
+		color: #333;
+		text-shadow: 0 0 0.2em #639cd4, 0 0 0.2em #639cd4, 0 0 0.2em #639cd4;
+	}
+	#frm span {
+		position: relative;
+		text-align: center;
+		z-index: 1;
+	}
+	
+	
+	#snypechat{
+		width: 300px;
+		height: 400px;
+		position: absolute;
+		right: 10px;
+		top: 50px;
+		border: double 1px #888;
+		background: url(../applications/experiments/images/transparent/agsst295.png);
+		padding: 4px;
+		-moz-border-radius-topleft: 10px; 
+		-moz-border-radius-topright: 10px;
+		-webkit-border-top-left-radius: 10px;
+		-webkit-border-top-right-radius: 10px;
+		border-radius-topleft: 10px;
+		border-radius-topright: 10px;
+		-moz-border-radius-bottomleft: 4px; 
+		-moz-border-radius-bottomright: 4px;
+		-webkit-border-bottom-left-radius: 4px;
+		-webkit-border-bottom-right-radius: 4px;
+		border-radius-bottomleft: 4px;
+		border-radius-bottomright: 4px;		
+	}
+	#maclike{
+		border: double 1px #888;
+		width: 300px;
+		height: 400px;
+		position: absolute;
+		top: 100px;
+		left: 500px;
+		padding: 4px;
+		background: url(../images/patterns/trans/266.png) fixed;
+		-moz-border-radius-topleft: 10px; 
+		-moz-border-radius-topright: 10px;
+		-webkit-border-top-left-radius: 10px;
+		-webkit-border-top-right-radius: 10px;
+		border-radius-topleft: 10px;
+		border-radius-topright: 10px;
+		-moz-border-radius-bottomleft: 5px; 
+		-moz-border-radius-bottomright: 5px;
+		-webkit-border-bottom-left-radius: 5px;
+		-webkit-border-bottom-right-radius: 5px;
+		border-radius-bottomleft: 5px;
+		border-radius-bottomright: 5px;
+	}
+	#maclike .bottombar{
+		-moz-border-radius-bottomleft: 4px; 
+		-moz-border-radius-bottomright: 4px;
+		-webkit-border-bottom-left-radius: 4px;
+		-webkit-border-bottom-right-radius: 4px;
+		border-radius-bottomleft: 4px;
+		border-radius-bottomright: 4px;
+		height: 20px;
+		position: absolute;
+		bottom: 0px;
+		left: 0px;
+		right: 0px;
+		background: url(../images/patterns/144.png) fixed;
+	}
+	#snypechat .draghandle, #maclike .draghandle{
+		width: 100%;
+		height: 20px;
+		-moz-border-radius-topleft: 6px; 
+		-moz-border-radius-topright: 6px;
+		-webkit-border-top-left-radius: 6px;
+		-webkit-border-top-right-radius: 6px;
+		border-radius-topleft: 6px;
+		border-radius-topright: 6px;
+		background: url(../applications/experiments/images/agsst214.jpg) fixed;
+	}
+	#snypechat .middle,#maclike .middle{
+		width: 100%; 
+		height: 100%; 
+		overflow: hidden;
+		position: relative;
+		-moz-border-radius-bottomleft: 4px; 
+		-moz-border-radius-bottomright: 4px;
+		-webkit-border-bottom-left-radius: 4px;	
+		-webkit-border-bottom-right-radius: 4px;
+		border-radius-bottomleft: 4px;
+		border-radius-bottomright: 4px;
+	}
+	#snypechat .container{
+		background-color: #639cd4;
+		overflow: hidden;
+		-moz-border-radius-bottomleft: 4px; 
+		-moz-border-radius-bottomright: 4px;
+		-webkit-border-bottom-left-radius: 4px;
+		-webkit-border-bottom-right-radius: 4px;
+		border-radius-bottomleft: 4px;
+		border-radius-bottomright: 4px;
+		padding: 0px;
+		position: absolute;
+		top: 20px;
+		bottom: 0px;
+		left: 0px;
+		right: 0px;
+	}
+    #maclike .container{
+    	bottom: 20px;
+		background-color: #639cd4;
+		overflow: hidden;
+		padding: 0px;
+		position: absolute;
+		top: 20px;
+		left: 0px;
+		right: 0px;
+	}
+	.containerchat{
+		position: absolute;
+		top:0;
+		left:0;
+		bottom: 0;
+		right: 0;
+		padding: 5px;
+		overflow: auto;
+	}
+	
+	.tempcurtain {width: 100%; height: 100%; position: absolute; top: 0; left: 0;}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	#frame {
+      position: relative;
+      z-index: 0;
+     /* float: left; */     /* float makes this wrap the face image */
+     /* display: inline;*/  /* IE6 hack to fix double margin bug */
+      width: 538px;
+      height: 799px;
+      margin: 2em auto;
+      padding: 5px;
+      border: 0;
+      background-color: #aaaaaa;
+    }
+
+
+    #picHolder {
+      position: relative;
+      z-index: 0;
+     /* float: left; */     /* float makes this wrap the face image */
+     /* display: inline; */ /* IE6 hack to fix double margin bug */
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    #sockets {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 320px;   /* 16x eye width (if changed then change eye width by same factor) */
+      z-index: 0;
+    }
+
+    #face {
+    	position: relative;       /* must be positioned to obey z-index, and get wrapped*/
+      top: 0;
+      left: 0;
+      width: 538px;   /* 16x eye width (if changed then change eye width by same factor) */
+	  height: 799px;
+      z-index: 1;
+    }
+
+    #leftEye {
+      position: absolute;
+      left: 12px;       /* approx, reset in initEyes */
+      top: 15px;
+      width: 615px;
+      z-index: 0;
+    }
+
+    #rightEye {
+      position: absolute;
+      left: 212px;      /* approx, reset in initEyes */
+      top: 165px;
+      width: 20px;
+      z-index: 0;
+    }
+	
+	
+	.aqua{
+  background-color: rgba(60, 132, 198, 0.8);
+  border-top-color: #8ba2c1;
+  border-right-color: #5890bf;
+  border-bottom-color: #4f93ca;
+  border-left-color: #768fa5;
+  -webkit-box-shadow: rgba(66, 140, 240, 0.5) 0px 10px 16px;
+  -moz-box-shadow: rgba(66, 140, 240, 0.5) 0px 10px 16px;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(28, 91, 155, 0.8)), to(rgba(108, 191, 255, .9)));
+/* for FF 3.6 */
+  background-image: -moz-linear-gradient(rgba(28, 91, 155, 0.8) 0%, rgba(108, 191, 255, .9) 90%);
+}
+
+.button .glare {
+  position: absolute;
+  top: 0;
+  left: 5px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  height: 1px;
+  width: 142px;
+  padding: 8px 0;
+  background-color: rgba(255, 255, 255, 0.25);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 95%, from(rgba(255, 255, 255, 0.7)), to(rgba(255, 255, 255, 0)));
+  /* for FF 3.6 */
+  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 95%);
+}

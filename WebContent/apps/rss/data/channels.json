@@ -1,0 +1,46 @@
+[{
+	"id":1,
+	"text":"Channels",
+	"iconCls":"icon-channels",
+	"children":[{
+		"id":12,
+		"text":"163 News",
+		"iconCls":"icon-feed",
+		"children":[{
+			"id":111,
+			"text":"National",
+			"iconCls":"icon-rss",
+			"attributes":{"url":"http://news.163.com/special/00011K6L/rss_gn.xml"}
+		},{
+			"id":112,
+			"text":"International",
+			"iconCls":"icon-rss",
+			"attributes":{"url":"http://news.163.com/special/00011K6L/rss_gj.xml"}
+		}]
+	},{
+		"id":11,
+		"text":"Sina News",
+		"iconCls":"icon-feed",
+		"children":[{
+			"id":111,
+			"text":"National",
+			"iconCls":"icon-rss",
+			"attributes":{"url":"http://rss.sina.com.cn/news/china/focus15.xml"}
+		},{
+			"id":112,
+			"text":"International",
+			"iconCls":"icon-rss",
+			"attributes":{"url":"http://rss.sina.com.cn/news/world/focus15.xml"}
+		}]
+	},{
+		"id":14,
+		"text":"Science",
+		"iconCls":"icon-feed",
+		"children":[{
+			"id":144,
+			"text":"National Geographic Society",
+			"iconCls":"icon-rss",
+			"attributes":{"url":"http://news.nationalgeographic.com/index.rss"}
+		}]
+	}]
+}]

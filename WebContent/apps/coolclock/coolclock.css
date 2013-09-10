@@ -1,0 +1,55 @@
+#wdgClock{
+	display:none;
+	width:216px;
+	margin-left:7px;
+	height:190px;
+	position:relative;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius: 10px;
+	border:2px solid transparent;
+	overflow: hidden;
+}
+#coolclockdiv{
+	box-shadow:0 0 16px #fff;
+	-webkit-box-shadow:0 0 16px #fff;
+	-moz-box-shadow:0 0 16px #fff;
+	position: relative;
+	width: 170px; 
+	height: 170px; 
+	border: 2px solid transparent;
+	-moz-border-radius: 85px;
+	-webkit-border-radius: 85px;
+	border-radius: 85px;
+	background: url(../experiments/images/agsst135.jpg) fixed;
+	margin-left: 22px;
+	margin-top: 8px;
+	width: 170px;
+	height: 170px;
+}
+
+#coolclockdiv div.clocktitle{
+	position: absolute; 
+	top: 110px; 
+	left: 42px; 
+	color: #fff;
+	font-size: 8pt;
+	background-color: #333;
+	padding: 1px 4px 1px 6px; 
+	border: solid 1px #000;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius:7px;
+	opacity: 0.6;
+}
+
+#coolclockdiv div.clocktheme{
+	position: absolute; 
+	top: 30px; 
+	left: 40px; 
+	opacity: 0;
+}
+
+#cclock{
+	cursor: move;
+}

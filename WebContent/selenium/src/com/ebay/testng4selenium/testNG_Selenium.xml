@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="my suite">
+	<parameter name="url" value="http://reg.email.163.com/mailregAll/reg0.jsp?from=126mail"/>
+	<test name="test1">
+		<groups>
+			<run>
+				<include name="selenium" />
+			</run>
+		</groups>
+		<classes>
+			<!--  class name="com.ebay.testng.LifeCycleTest"-->
+			<class name="com.ebay.testng4selenium.DataProviderTest" />
+		</classes>
+	</test>
+</suite>

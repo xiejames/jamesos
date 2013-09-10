@@ -1,0 +1,44 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<title>jQuery EasyUI</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+	<meta name="keywords" content="jquery,ui,easy,easyui,web">
+	<meta name="description" content="test">
+	<title>RSS Reader Demo - jQuery EasyUI</title>
+	<link rel="stylesheet" type="text/css" href="../../easyui13/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../../easyui13/themes/icon.css">
+
+	<script type="text/javascript" src="../../easyui13/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="../../easyui13/jquery.easyui.min.js"></script>
+	<style>
+body{
+margin:0px;
+padding:0px;
+}
+</style>
+
+</head>
+<body>
+
+<fieldset><legend><span style="font-size:16px;color:red;">HTML5 LocalStorage测试</span></legend>
+<div id="testtext"  style="margin:10px;font-size:14px;">
+	<p>这是你用本浏览器,第<span id="count"></span>次,访问这个页面！~~</p>
+</div>
+</fieldset>
+</body>
+<script>
+	if(window.localStorage){
+		var storage = window.localStorage;
+		if (!storage.getItem("html5.localstorage")){
+			storage.setItem("html5.localstorage",0);
+		}
+		var pageLoadCount = parseInt(storage.getItem("html5.localstorage")) + 1;//必须格式转换
+		storage.setItem("html5.localstorage",pageLoadCount);
+		document.getElementById("count").innerHTML = pageLoadCount;
+	}else{
+		document.getElementById("testtext").innerHTML = "This browser does NOT support localStorage";
+	}
+	
+</script>
+</html>

@@ -1,0 +1,79 @@
+	/*           Loading splash screen        */
+	#loadingZone{
+	padding: 30px;
+	width:410px;
+	height: 90px;
+	text-align:center;
+	border: solid 1px #000;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 42%;
+	margin: auto;
+	background-color:#fff;
+	z-index: 5000;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	}
+	#loadingZone .fblogo{
+	width: 200px;
+	height: 21px;
+	background: url(../images/fblogo.jpg) no-repeat;
+	position: absolute;
+	left: 140px;
+	top: 30px;
+	}
+	#loadingZone .welcomemsg{
+	margin-left: auto;
+	margin-right: 30px;
+	margin-bottom: 20px;
+	height: 21px;
+	width: 150px;
+	background: url(../images/welcome2.jpg) no-repeat;
+	position: relative;
+	opacity: 0;
+	}
+	#loadingBar{
+	border:1px solid #656362;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	height:10px;
+	text-align:left;
+	line-height:0;
+	margin:0;
+	padding:0;
+	overflow:hidden; /*fix for IE 6*/
+	}
+	#progressBar{
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	height:10px;
+	line-height:0;
+	margin:0;
+	padding:0;
+	background: url(../images/progressbg_orange.jpg);
+	width:0%;
+	}
+	#loadingSms{
+	color:#e18542;
+	float:left;
+	padding:10px 2px;
+	font-weight: bold;
+	}
+	#infoProgress{
+	color:#e18542;
+	float:right;
+	padding:10px 2px;
+	font-weight: bold;
+	}
+	#infoLoading{
+	color:#777;
+	font-size:11px;
+	padding: 10px;
+	float: left;
+	}
+	
+	/*       end Loading Splash Screen     */

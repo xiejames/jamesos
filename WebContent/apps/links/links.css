@@ -1,0 +1,28 @@
+#linksitem{
+	width:70px;
+	height:70px;
+	margin:0 auto;
+	top:240px;
+	position: relative;
+	color: #000;
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-weight: bold;
+	font-size:0.8em;
+}
+#linksitem ul{
+	list-style-type: none;
+}
+#linksitem a{ 
+	color: #000; 
+	text-decoration: none; 
+	text-shadow: 0 0 0.8em #f0ff00, 0 0 0.8em #f0ff00, 0 0 0.8em #f0ff00;
+}
+ div.linkdescription{
+	text-shadow: 0 0 0.8em #ddd, 0 0 0.8em #ddd, 0 0 0.8em #ddd;
+	color: #fff;
+	font-size: 12px;
+	position: absolute;
+	bottom: 20px; 
+	width: 100%;
+	text-align: center;
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)http://people.opera.com/danield/html5/explode/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>HTML5 Exploding Camera Demo</title> 
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="video/style1.css">
+</head>
+
+<body>
+    <div role="main">
+        <video id="sourcevid" autoplay="" src="">Sorry, you're browser doesn't support video. Please try <a href="http://snapshot.opera.com/labs/camera/">Opera</a>.</video>
+        <canvas id="sourcecopy" width="640" height="480"></canvas>
+        <canvas id="output" width="1366" height="583" style="display:none;"></canvas>
+    </div>
+
+    <script src="video/script.js"></script>
+    <script src="video/device.js"></script>
+
+<script>
+initCamera("sourcevid","sourcecopy","output");
+</script>
+ 
+</body></html>

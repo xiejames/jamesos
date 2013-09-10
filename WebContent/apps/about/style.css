@@ -1,0 +1,7 @@
+#guishAboutWin div.aboutdiv{
+	padding: 10px;
+	border: solid 1px #aaa;
+	-moz-border-radius: 6px;-webkit-border-radius: 6px;border-radius: 6px;
+	background: url(whitetrans.png);
+}
+#guishAboutWin .aboutCom, .aboutCon { cursor: pointer; }

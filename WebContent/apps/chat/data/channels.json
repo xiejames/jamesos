@@ -1,0 +1,36 @@
+[{
+	"id":1,
+	"text":"user list",
+	"iconCls":"group",
+	"children":[{
+		"id":12,
+		"text":"online users",
+		"iconCls":"userlist",
+		"children":[{
+			"id":111,
+			"text":"user 1a",
+			"iconCls":"online",
+			"attributes":{"name":"james"}
+		},{
+			"id":111,
+			"text":"user 1b",
+			"iconCls":"online",
+			"attributes":{"name":"james"}
+		}]
+	},{
+		"id":12,
+		"text":"offline users",
+		"iconCls":"userlist",
+		"children":[{
+			"id":111,
+			"text":"user 2a",
+			"iconCls":"offline",
+			"attributes":{"name":"james"}
+		},{
+			"id":111,
+			"text":"user 2b",
+			"iconCls":"offline",
+			"attributes":{"name":"james"}
+		}]
+	}]
+}]

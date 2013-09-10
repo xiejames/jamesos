@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+<fieldset><legend><span style='color:red;'>最近邻网络,</span></legend>
+节点数：<input type="text" id="size" value="22">
+邻近系数K：<input type="text" id="k" value="2">
+最大节点数：<input type="text" id="cycle" value="50" disabled="disabled" >
+<input type="button" value="画图" onclick="draw();">
+</fieldset>
+<br/>
+<canvas id="canvas" width="1024" height="800" style='border:1px dashed black;'>
+<span style='color:red;'>错误提示：IE6.0浏览器不支持HTML5的canvas，请用firefox或者chrome或者IE9.0浏览器</span>
+</canvas>
+
+<script type="text/javascript">
+function draw(){
+	if (/^[\d]+$/.test(document.getElementById('size').value)
+	&& /^[\d]+$/.test(document.getElementById('k').value) 
+	&& /^[\d]+$/.test(document.getElementById('cycle').value)) 
+	{ 
+	}else{
+		alert("只能输入正整数!");
+		document.getElementById('size').focus();
+        return; 
+    } 
+	var MAX_SIZE=parseInt(document.getElementById('cycle').value);
+	var size=parseInt(document.getElementById('size').value);
+	if(size>MAX_SIZE){
+		alert('数字太大，保证性能和美观，请输入'+MAX_SIZE+'以内的正整数! （或者修改源代码里面的cycle参数）');
+		document.getElementById('size').focus();
+        return; 
+	}
+	var cycle=parseInt(document.getElementById('cycle').value);
+	var k=parseInt(document.getElementById('k').value);
+	var R=250; //圈半径
+	var PointR=8;//点大小半径
+	var X0=300;//原点位置
+	var Y0=300;//原点位置
+	var MAX_CYCLE=cycle;//点集一圈最大点数
+	var CYCLE_GAP=100;//圈与圈间距
+	var x=new Array();
+	var y=new Array();
+	for(var i=0;i<size;i++){
+		var cycleNum=Math.floor(i/MAX_CYCLE);
+		var positionNum=i%MAX_CYCLE;//比如：11%10=1，5%10=5
+		var divide=size>MAX_CYCLE?MAX_CYCLE:size;	
+
+		x[i]=Math.round(X0+CYCLE_GAP*cycleNum+Math.cos(Math.PI*2*positionNum/divide)*R);
+		y[i]=Math.round(Y0+CYCLE_GAP*cycleNum+Math.sin(Math.PI*2*positionNum/divide)*R);
+	}
+	var canvas = document.getElementById("canvas");  
+	if (canvas && canvas.getContext) {  
+		var context = canvas.getContext("2d");  
+		context.clearRect(0, 0, 1800, 1800);
+		context.save();
+		context.shadowColor='#FFF';
+		for (var i=0;i<size;i++){ 
+			context.fillStyle = 'rgb('+(50*i)+','+(255-80*i)+','+10*i+')';
+			context.fillStyle = 'rgb('+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+')';
+
+			context.beginPath();
+			context.globalCompositeOperation='source-over';
+			context.arc(x[i],y[i],PointR,0,Math.PI*2,true);
+			context.fill();
+		//}
+		//for (var i=0;i<size;i++){ 
+			context.beginPath();
+			context.globalCompositeOperation='destination-over';
+			for(var j=1;j<=k;j++){
+				var next=((i+j)>(size-1))?i+j-size:i+j;
+				context.beginPath();
+				if(j==1){
+					context.beginPath();
+					context.moveTo(x[i],y[i]);
+					context.lineTo(x[next],y[next]);
+					context.stroke();
+				}else{
+					context.beginPath();
+					context.moveTo(x[i],y[i]);
+					context.quadraticCurveTo(X0,Y0,x[next],y[next]);
+					context.stroke();
+				}
+			}
+		}
+		
+		context.restore();
+
+	}
+}
+</script> 
+
+</body>
+</html>

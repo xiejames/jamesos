@@ -1,0 +1,147 @@
+/* Main style sheet for jQuery Calculator v1.2.2 */
+div.hasCalculator, span.hasCalculator {
+	position: relative;
+}
+button.calculator-trigger {
+	width: 25px;
+	padding: 0px;
+}
+img.calculator-trigger {
+	margin: 2px;
+	vertical-align: middle;
+}
+#calculator-div {
+	display: none;
+	z-index: 10;
+	margin: 0;
+	padding: 0;
+	color: #000;
+	font-family: Arial,Helvetica,sans-serif;
+}
+.calculator-keyentry {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	width: 0px;
+	display: none;
+}
+.calculator-inline {
+	position: relative;
+	text-shadow: 0 1px 1px #aaa;	
+}
+.calculator-inline .calculator-close {
+	display: none;
+}
+.calculator-disabled {
+	position: absolute;
+	z-index: 100;
+	background-color: white;
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+}
+.calculator-rtl {
+	direction: rtl;
+}
+.calculator-prompt {
+	clear: both;
+	width: 100%;
+	text-align: center;
+}
+.calculator-result {
+	clear: both;
+	margin: 2px;
+	padding: 4px 2px;
+	text-align: right;
+	background-color: #fff;
+	border: 2px inset #aaa;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	font-size: 12pt;
+	height: 18px;
+	font-weight: bold;
+	overflow: hidden;
+}
+.calculator-focussed {
+	background-color: #ffc;
+}
+.calculator-row {
+	clear: both;
+	width: 100%;
+}
+.calculator-space {
+	float: left;
+	margin: 2px;
+	width: 46px;
+}
+.calculator-half-space {
+	float: left;
+	margin: 1px;
+	width: 18px;
+}
+
+.calculator-row button {
+	position: relative;
+	float: left;
+	cursor: pointer;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width: 50px;
+}
+
+.calculator-row .calculator-ctrl {
+	width: 60px;
+}
+.calculator-row .calculator-undo, .calculator-row .calculator-clear-error, .calculator-row .calculator-clear {
+	width: 60px;
+}
+.calculator-row .calculator-base, .calculator-row .calculator-angle {
+	width: 50px;
+}
+.calculator-row .calculator-base-active, .calculator-row .calculator-angle-active {
+	
+}
+.calculator-digit, .calculator-oper {
+	width: 50px;
+}
+.calculator-digit{ font-weight: bold;}
+.calculator-oper{ font-size: 8pt }
+.calculator-mem-empty {
+	color: #888;
+}
+.calculator-trig {
+	width: 50px;
+}
+@-moz-document url-prefix() { // Firefox
+	.calculator-trig, .calculator-base {
+		text-indent: -3px;
+	}
+}
+.calculator-key-down {
+
+}
+.calculator-keystroke {
+	display: none;
+	width: 16px;
+	height: 14px;
+	position: absolute;
+	left: -2px;
+	top: -2px;
+	color: #000;
+	background-color: #ccc;
+	font-size: 80%;
+}
+.calculator-keyname {
+	width: 22px;
+	font-size: 70%;
+}
+.calculator-cover {
+	display: none;
+	display/**/: block;
+	position: absolute;
+	z-index: -1;
+	filter: mask();
+	top: -4px;
+	left: -4px;
+	width: 125px;
+	height: 200px;
+}

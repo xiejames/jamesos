@@ -1,0 +1,89 @@
+#tetris {
+	margin: auto;
+	width:420px;
+	overflow:hidden;
+	position: relative;
+}
+
+#grid {
+	float:left;
+	overflow: hidden;
+	background: url(images/wall4.gif);
+}
+
+#next table, #grid {
+	border:0.2em solid #999999;
+}
+
+#grid td, #next td {
+	width:25px;
+	height:25px;
+	-moz-border-radius:0.5em;
+	-webkit-border-radius:0.5em;
+	border-radius:0.5em;
+	opacity: 0.8;	
+}
+
+#next {
+	margin-bottom:1em;
+	float:right;
+}
+
+#tetrisstats {
+	margin-bottom:1em;
+	float:right;
+	clear:right;
+}
+
+#tetrisstats div {
+	font-size:120%;
+	width:7em;
+	text-align:right;
+}
+
+#cmd {
+	font-size:120%;
+	float:right;
+	clear:right;
+	width:7em;
+	text-align:right;
+}
+
+#cmd a {
+	float: right;
+}
+
+#info {
+	font-size:80%;
+	float:right;
+	clear:right;
+	width:7em;
+	text-align:right;
+}
+
+#info input {
+	width:1.5em;
+	text-align:center;
+}
+
+#src {
+	font-family:arial,helvetica;
+	font-size:80%;
+	color:#FFF;
+}
+
+#tetrisabout{
+	padding: 10px;
+	line-height: 20px;
+	width: 360px;
+	position: absolute;
+	left: 20px; top: 100px;
+	border: solid 1px #aaa;
+	background: url(images/bkg.png);
+	font-size: 14px;
+	color: #ccc;
+	z-index:101;
+	text-align:center;
+	text-shadow: 0 0 0.2em blue, 0 0 0.2em blue, 0 0 0.2em blue;
+}
+

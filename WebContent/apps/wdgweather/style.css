@@ -1,0 +1,81 @@
+#wdgWeather{
+	color: #000; 
+	font-size: 9pt;
+	font-weight: bold; 
+	overflow: hidden;
+	text-shadow:0 0 0.2em #fff, 0 0 0.2em #fff, 0 0 0.2em #fff; 
+	position: relative;
+}
+#wdgWeather span.weathericonspan{
+	float: left; 
+	padding: 3px;
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #eee;
+	width: 40px;
+	height: 40px;
+	display: block;
+}
+#wdgWeather div.cityanddate{
+	height: 40px; 
+	float: left; 
+	padding: 8px 0px 0px 10px; 
+	line-height: 18px; 
+	margin-bottom: 5px;
+	font-size: 9pt;
+	overflow: hidden;
+	width: 145px;
+}
+#wdgWeather div.wdgdots{
+	-moz-box-shadow: 0 0 0.2em #fff; 
+	-webkit-box-shadow: 0 0 0.2em #fff;
+	box-shadow: 0 0 0.2em #fff;
+	width:150px; 
+	margin: auto; 
+	height: 1px; 
+	border-top: dotted 1px #000; 
+	clear: both;
+	margin-top: 5px;
+}
+#wdgWeather div.weatherinfo{
+	clear: both; 
+	padding: 6px 0px 0px 2px; 
+	line-height: 17px;
+	overflow: hidden;
+}
+#wdgWeather a.notyourcity, span.getwinfo, a.wback, span.werrtext{
+	text-shadow:0 0 0.2em #000, 0 0 0.2em #000, 0 0 0.2em #000; 
+	font-size: 8pt; 
+	margin: auto;
+	font-weight: normal; 
+	color: #fff; 
+	cursor: default;
+}
+#wdgWeather div.weatherFind{
+	padding: 10px 5px 5px 5px;
+	text-align: center;
+	display: none;
+}
+#wdgWeather div.weatherFind input{
+	width: 190px;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px;
+	border-radius: 5px;
+	border:0pt none;
+	padding: 0px 4px 0px 5px;
+	height: 20px;
+}
+#wdgWeather div.weatherFind button{
+	margin-top: 5px;
+	margin-left: 70px;
+}
+#wdgWeather div.weatherError{
+	padding: 10px;
+	text-align: center;
+	display: none;
+}
+#wdgWeather #weatherLoader {
+	float: right; 
+	margin-top: 3px; 
+	display: none;
+}

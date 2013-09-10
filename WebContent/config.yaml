@@ -1,0 +1,4 @@
+name: jshanghai
+version: 1
+handle:
+- passwdaccess:  passwd "james:james"

@@ -1,0 +1,28 @@
+#jqueryex{
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+#expjQuery div.jQexp{
+	height: 80px;
+	width: 100%;
+	margin-bottom: 5px;
+	background-color: #d6eefa;
+	padding: 10px;
+}
+#expjQuery div.desc{
+	width: 60%;
+	border: 1px solid #aaa;
+	padding: 5px;
+	overflow: auto;
+	height: 44px;
+	color: #66A7C9;
+}
+#expjQuery h2{
+	font-size: 15px;
+	font-weight: bold;
+	font-family: Arial, Tahoma;
+	padding: 4px;
+	width: 80%;
+}

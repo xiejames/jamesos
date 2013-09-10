@@ -1,0 +1,431 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+<fieldset><legend>小世界网络</legend>
+节点数N：<input type="text" id="N" value="50">
+邻近系数K：<input type="text" id="k" value="2">
+重连几率p:<input type="text" id="p" value="0.02">
+<input type="button" value="画图" onclick="draw();var k=document.getElementById('k').value;statistics(k);">
+<input type="button" value="集聚系数统计图" onclick="var k=document.getElementById('k').value;statistics(k);" style="float:right;">
+</fieldset>
+<br/>
+<div style="width:1300px;">
+<canvas id="canvas" width="1800" height="600" style='border:1px dashed black;'>
+<span style='color:red;'>错误提示：IE6.0浏览器不支持HTML5的canvas，请用firefox或者chrome或者IE9.0浏览器</span>
+</canvas>
+<br/>
+<span>
+画板参数：
+点大小：<input type="text" id="PointR" value="8">
+<input type="text" id="X0" value="300" style='display:none;'>
+<input type="text" id="Y0" value="300" style='display:none;'>
+</span>
+<span style="margin-left:600px;">
+分布图参数：
+<input type="checkbox" id="chartType1" value="1" onclick='redrawDiagram()' checked>点状图
+<input type="checkbox" id="chartType2" value="2" onclick='redrawDiagram()'>柱状图
+</span>
+
+
+</div>
+<script type="text/javascript">
+
+var R=280; //圈半径
+var PointR=8;//点大小半径
+var X0=300;//原点位置
+var Y0=300;//原点位置
+var context;
+var x,y;//点位置集合
+var N,k;//输入参数：总点数，每个点与左/右邻近点的连接数
+var edgeMatrix;//边集合，按照点索引
+var p;//重连概率（小世界特有参数）
+var MAX_N=10000;//本程序允许输入的最大N
+	var chartType=new Array();
+
+function validateInputParam(){
+	N=parseInt(document.getElementById('N').value);
+	k=parseInt(document.getElementById('k').value);
+	p=parseFloat(document.getElementById('p').value);
+	PointR=parseInt(document.getElementById('PointR').value);
+	X0=parseInt(document.getElementById('X0').value);
+	Y0=parseInt(document.getElementById('Y0').value);
+
+	if (/^[\d]+$/.test(document.getElementById('N').value) 
+	&& /^[\d]+$/.test(document.getElementById('k').value)
+	&& /^[\d.]+$/.test(document.getElementById('p').value)
+	){ 
+		
+	}else{
+		alert("只能输入正整数!");
+		document.getElementById('N').focus();
+        return false; 
+    } 
+	N=parseInt(document.getElementById('N').value);
+	if(N>MAX_N){
+		alert('数字太大，保证性能和美观，请输入'+MAX_N+'以内的正整数! （或者修改源代码里面的cycle参数）');
+		document.getElementById('N').focus();
+        return false; 
+	}
+	if(N<2){
+		alert('数字最小2');
+		document.getElementById('N').focus();
+        return false; 
+	}
+	return true;
+}
+
+function generateNetworkData(N,k,p){
+	x=new Array();
+	y=new Array();
+
+	generateNode(N);
+	generateEdge(k,p);
+
+}
+function generateNode(N){
+	for(var i=0;i<N;i++){
+		x[i]=Math.round(Math.cos(Math.PI*2*i/N)*R);
+		y[i]=Math.round(Math.sin(Math.PI*2*i/N)*R);
+	}
+}
+function generateEdge(k,p){
+	edgeMatrix=new Array();
+	for(var i=0;i<N;i++){
+		edgeMatrix[i]=new Array();
+	}
+	for(var j=1;j<=k;j++){
+			for (var i=0;i<N;i++){ 
+				var next=(i+j)%(N);//下一个，下下一个
+				if(Math.random()<=p  && N>3){//重连 
+					var index=0;
+					next=Math.round(Math.random()*(N-1));
+					while(next==i || edgeMatrix[i].contains(next)){//是自己或者已经连过了
+						next=Math.round(Math.random()*(N-1));index++;
+						if(index>1000) break;
+					}
+				}
+				if(edgeMatrix[i].contains(next)) continue;
+				if(edgeMatrix[next].contains(i))continue;
+				edgeMatrix[i].push(next);
+				edgeMatrix[next].push(i);
+			}
+	}
+}
+
+//集聚系数
+function statistics(k){
+	if(validateInputParam()==false){
+		return;
+	}
+	var canvas = document.getElementById("canvas");  
+	if (canvas && canvas.getContext) {  
+		context = canvas.getContext("2d"); 
+		}
+	x=new Array();
+	y=new Array();
+		generateNode(N);
+	var YArray=new Array();
+	var Y0Array=new Array();
+	var XArray=new Array();
+
+
+	for(var i=0;i<=100;i++){
+		var p=i/100;
+		Y0Array[i]=100*3*(k-1)*(1-p)*(1-p)*(1-p)/(2*(2*k-1));
+		generateEdge(k,p);
+		var C=calcConcentrationDistribute();
+		var totalC=0;
+		for (var j=0;j<C.length ; j++)
+		{
+			totalC+=C[j];
+		}
+		YArray[i]=Math.round(100*totalC/C.length);
+		XArray[i]=Math.round(100*p);
+	}
+	context.clearRect(600, 0, 600, 600);
+	chartType=new Array();
+	chartType.push('point');
+	drawDiagram(YArray,XArray,YArray.length,600,0,600,600,"集聚系数分布图","概率p","平均集聚系数",chartType,100,100);
+	chartType=new Array();
+	chartType.push('line');
+	drawDiagram(Y0Array,XArray,Y0Array.length,600,0,600,600,"集聚系数分布图","概率p","平均集聚系数",chartType,100,100);
+	
+}
+function calcConcentrationDistribute(){
+	var Concentration=new Array();
+	for(var i=0;i<N;i++){//第一层节点
+		Concentration[i]=0;
+		var subPointArray=edgeMatrix[i];//第二层所有节点 
+		
+		for(var ia=0;ia<subPointArray.length;ia++){
+			var subId=subPointArray[ia];//遍历第二层节点
+			for(var iaa=0;iaa<subPointArray.length;iaa++){//当前第二层节点序号之后的节点
+				if(edgeMatrix[subId].contains(subPointArray[iaa])){
+					Concentration[i]++;
+				}
+			}
+			
+		}
+		if(Concentration[i]!=0) {
+			Concentration[i]=Concentration[i]/(subPointArray.length*(subPointArray.length-1));
+		}
+		
+	}
+	return Concentration;
+}
+
+function draw(){
+	N=parseInt(document.getElementById('N').value);
+	k=parseInt(document.getElementById('k').value);
+	p=parseFloat(document.getElementById('p').value);
+	if(validateInputParam()==false){
+		return;
+	}
+	generateNetworkData(N,k,p);
+
+	var canvas = document.getElementById("canvas");  
+	PointR=parseInt(document.getElementById('PointR').value);
+	X0=parseInt(document.getElementById('X0').value);
+	Y0=parseInt(document.getElementById('Y0').value);
+
+	if (canvas && canvas.getContext) {  
+		context = canvas.getContext("2d");  
+		context.clearRect(0, 0, 1800, 1800);
+		context.save();
+		context.translate(X0,Y0);
+		context.shadowColor='#FFF';
+		for (var i=0;i<N;i++){ 
+			context.fillStyle = 'rgb('+(50*i)+','+(255-80*i)+','+10*i+')';
+			context.fillStyle = 'rgb('+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+')';
+
+			context.beginPath();
+			context.globalCompositeOperation='source-over';
+			context.arc(x[i],y[i],PointR,0,Math.PI*2,true);
+			context.fill();
+		}
+		for (var i=0;i<N;i++){ 
+			context.beginPath();
+			context.globalCompositeOperation='destination-over';
+			for(var j=0;j<edgeMatrix[i].length;j++){
+				var next=edgeMatrix[i][j];
+				context.beginPath();
+				context.moveTo(x[i],y[i]);
+				if(next<=i) continue;//防止重复画图
+				if(Math.abs(next-i)==1 || (next==0 && i==N-1)|| (next==N-1 && i==0)){
+					context.lineTo(x[next],y[next]);
+				}else{
+					context.quadraticCurveTo(0,0,x[next],y[next]);
+				}
+				context.stroke();
+			}
+		}
+		
+		context.restore();
+
+	}
+	var degree=calcDegreeDistribute();
+	context.clearRect(1200, 0, 600, 600);
+	var chartType1 = document.getElementById("chartType1");  
+	var chartType2 = document.getElementById("chartType2"); 
+	chartType=new Array();
+    if (chartType1.type=="checkbox" && chartType1.checked){    
+		chartType.push('point');
+    }   
+    if (chartType2.type=="checkbox" && chartType2.checked){    
+		chartType.push('bar');
+    }
+	drawDiagram(degree,null,N,1200,0,600,600,"度分布图","节点编号","度大小",chartType);
+
+
+}
+
+function redrawDiagram(){
+	var degree=calcDegreeDistribute();
+			context.clearRect(1200, 0, 600, 600);
+	var chartType1 = document.getElementById("chartType1");  
+	var chartType2 = document.getElementById("chartType2"); 
+	chartType=new Array();
+    if (chartType1.type=="checkbox" && chartType1.checked){    
+		chartType.push('point');
+    }   
+    if (chartType2.type=="checkbox" && chartType2.checked){    
+		chartType.push('bar');
+    } 
+	drawDiagram(degree,null,N,1200,0,600,600,"度分布图","节点编号","度大小",chartType);
+}
+
+function calcDegreeDistribute(){
+	var degree=new Array();
+	var totalDegree=0;
+	for(var i=0;i<N;i++){
+		totalDegree+=edgeMatrix[i].length;
+		degree[i]=edgeMatrix[i].length;
+	}	
+	degree.sort();	
+	return degree;
+}
+
+function drawDiagram(dataY,dataX,NN,startX,startY,Width,Height,title,xHint,yHint,chartType,coordinateXRatio,coordinateYRatio){
+	if(coordinateXRatio===undefined){
+		coordinateXRatio=1;
+	}
+	if(coordinateYRatio===undefined){
+		coordinateYRatio=1;
+	}
+	var canvas = document.getElementById("canvas");  
+	if(dataX==null){
+		dataX=new Array();
+		for (var i=0;i<dataY.length;i++ )
+		{
+			dataX[i]=i+1;
+		}
+	}
+		var maxX=dataX.max();
+		var maxY=dataY.max();
+		var XMarkNum=5;//总刻度数
+		var YMarkNum=5;//总刻度数
+		var MARGINx=100;//图像对画板的margin
+		var MARGINy=100;//图像对画板的margin
+		var coordinateXMax=startX+Width-MARGINx; 
+		var coordinateYMax=startY+Height-MARGINy; 
+		var coordinateX0=startX+MARGINx; 
+		var coordinateY0=startY+MARGINy; 
+		var coordinateXWidth=Width-2*MARGINx; 
+		var coordinateYHeight=Height-2*MARGINy; 
+
+
+	if (canvas && canvas.getContext) {  
+		context = canvas.getContext("2d");  
+		context.beginPath();
+		context.save();
+		context.fillStyle='black';
+		context.font = "28px Times New Roman";
+		context.fillText(title,coordinateXMax-Width/2,coordinateYMax+60);
+		context.font = "18px Times New Roman";
+		context.moveTo(coordinateXMax,coordinateYMax);
+		context.fillText(xHint,coordinateXMax+20,coordinateYMax);
+		context.lineTo(coordinateX0,coordinateYMax);
+		context.fillText("0",coordinateX0-10,coordinateYMax+10);
+		context.lineTo(coordinateX0,coordinateY0);
+		context.fillText(yHint,coordinateX0,coordinateY0-20);
+		context.stroke();
+		
+
+		var dataunity=maxY%YMarkNum==0?maxY/YMarkNum:Math.floor((maxY+YMarkNum)/YMarkNum);
+		var dataunitx=maxX%XMarkNum==0?maxX/XMarkNum:Math.floor((maxX+XMarkNum)/XMarkNum);
+		var coordinateunity=Math.round(coordinateYHeight/(YMarkNum));
+		var coordinateunitx=Math.round(coordinateXWidth/(XMarkNum));
+		//刻度/标度
+		for (var i=1;i<=XMarkNum ;i++ )
+		{
+			context.beginPath();
+			context.moveTo(coordinateX0+coordinateXWidth*i/(XMarkNum),coordinateYMax);
+			context.lineTo(coordinateX0+coordinateXWidth*i/(XMarkNum),coordinateYMax-10);
+			context.fillText(dataunitx*i/coordinateYRatio,coordinateX0+coordinateXWidth*i/(XMarkNum),coordinateYMax+20);
+			context.stroke();
+		}
+		
+		var offsetC=coordinateYRatio>1?20:0;
+		for (var i=1;i<=YMarkNum ;i++ )
+		{
+			context.beginPath();
+			context.moveTo(coordinateX0,coordinateYMax-coordinateYHeight*i/(YMarkNum));
+			context.lineTo(coordinateX0+10,coordinateYMax-coordinateYHeight*i/(YMarkNum));
+			context.fillText(dataunity*i/coordinateYRatio,coordinateX0-20-offsetC,coordinateYMax-coordinateYHeight*i/(YMarkNum));
+			context.stroke();
+		}
+
+		//数据
+			if(chartType.contains('line')){
+				context.beginPath();
+				context.strokeStyle='red';
+				context.moveTo(coordinateXMax-180,coordinateY0+20);
+				context.lineTo(coordinateXMax-150,coordinateY0+20);
+				context.stroke();
+				context.beginPath();
+				context.fillText("理论值",coordinateXMax-150,coordinateY0+30);
+				context.fillText("3(k-1)(1-p)^3",coordinateXMax-80,coordinateY0+20);
+				context.beginPath();
+				context.strokeStyle='black';
+				context.moveTo(coordinateXMax-80,coordinateY0+27);
+				context.lineTo(coordinateXMax,coordinateY0+27);
+				context.fillText("(2(2k-1))",coordinateXMax-70,coordinateY0+40);
+				context.stroke();
+				
+			}
+
+		for (var i=0;i<dataX.length;i++ )
+		{
+
+			if(chartType.contains('point')){
+				context.beginPath();
+				context.fillStyle='black';
+				context.arc(coordinateX0+Math.round(coordinateunitx*(dataX[i])/dataunitx),coordinateYMax-Math.round(coordinateunity*dataY[i]/dataunity),3,0,Math.PI*2,true);
+				context.fill();
+			}
+			if(chartType.contains('line')){
+				context.strokeStyle='red';
+				if(i==0){
+					context.beginPath();
+					context.moveTo(coordinateX0+Math.round(coordinateunitx*(dataX[i])/dataunitx),coordinateYMax-Math.round(coordinateunity*dataY[i]/dataunity));
+
+				}
+				context.lineTo(coordinateX0+Math.round(coordinateunitx*(dataX[i])/dataunitx),coordinateYMax-Math.round(coordinateunity*dataY[i]/dataunity));
+				if(i==dataX.length-1){
+						context.stroke();
+				}
+			}
+			if(chartType.contains('bar')){
+				context.beginPath();
+				context.fillStyle = 'rgb('+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+')';
+				context.rect(coordinateX0+Math.round(coordinateunitx*(dataX[i])/dataunitx),coordinateYMax-Math.round(coordinateunity*dataY[i]/dataunity),1,Math.round(coordinateunity*dataY[i]/dataunity));
+				context.fill();
+			}
+		}
+		/**/
+
+	}
+	context.restore();
+}
+</script> 
+<script language='javascript'>
+//function assistant
+Array.prototype.contains=function(obj){
+    for(var i=0; i<this.length; i++) {  
+        if(this[i]==obj) {  
+            return true;  
+        }  
+    }  
+    return false;  
+}
+Array.prototype.max=function(){
+	var max=this[0];
+    for(var i=0; i<this.length; i++) {  
+        if(this[i]>max) {  
+            max=this[i];  
+        }  
+    }  
+    return max;  
+}
+Array.prototype.sort=function(){
+	var ids=new Array();
+    for(var i=0; i<this.length; i++) {  
+		ids[i]=i;
+	}
+    for(var i=0; i<this.length; i++) {  
+		for(var j=0; j<this.length-i-1; j++) {  
+			if(this[j]>this[j+1]){
+				var d=ids[j];
+				ids[j]=ids[j+1];
+				ids[j+1]=d;
+				var dd = this[j];
+　　			this[j] = this[j+1];
+　　			this[j+1] = dd; 
+			}
+		}
+    } 
+    return ids;  
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<suite name="my suite">
+	<test name="test1">
+		<groups>
+			<run>
+				<include name="DebugGroup" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.ebay.testng.DataProviderTest" />
+		</classes>
+	</test>
+</suite>
