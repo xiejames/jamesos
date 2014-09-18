@@ -4,7 +4,7 @@ var Ucren = require( "lib/ucren" );
 var fruits = fruit.getFruitInView();
 
 /**
- * 碰撞检测
+ * 纰版挒妫�祴
  */
 
 exports.check = function( knife ){
@@ -41,9 +41,9 @@ function equation12( a, b, c ){
 		return [ (-1 * b + Math.sqrt(delta)) / (2 * a),  (-1 * b - Math.sqrt(delta)) / (2 * a) ];
 }
 
-// 返回线段和椭圆的两个交点，如果不相交，返回 null
+// 杩斿洖绾挎鍜屾き鍦嗙殑涓や釜浜ょ偣锛屽鏋滀笉鐩镐氦锛岃繑鍥�null
 function lineXEllipse( p1, p2, c, r, e ){
-	// 线段：p1, p2    圆心：c    半径：r    离心率：e
+	// 绾挎锛歱1, p2    鍦嗗績锛歝    鍗婂緞锛歳    绂诲績鐜囷細e
 	if (r <= 0) return;
 	e = e === undefined ? 1 : e;
 	var t1 = r, t2 = r * e, k;
@@ -73,8 +73,7 @@ function lineXEllipse( p1, p2, c, r, e ){
 	return result;
 }
 
-// 判断计算线段和椭圆是否相交
-function lineInEllipse( p1, p2, c, r, e ){
+ function lineInEllipse( p1, p2, c, r, e ){
 	var t = lineXEllipse( p1, p2, c, r, e );
 	return t && ( t[0] || t[1] );
 }

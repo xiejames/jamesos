@@ -31,12 +31,11 @@ exports.start = function(){
 
     [ timeline, sence, control ].invoke( "init" );
 
-    log( "正在加载鼠标控制脚本" );
-    log( "正在加载图像资源" );
-	log( "正在加载游戏脚本" );
-    log( "正在加载剧情" );
-    log( "正在初始化" );
-	log( "正在启动游戏..." );
+    log( "姝ｅ湪鍔犺浇榧犳爣鎺у埗鑴氭湰" );
+    log( "姝ｅ湪鍔犺浇鍥惧儚璧勬簮" );
+	log( "姝ｅ湪鍔犺浇娓告垙鑴氭湰" );
+    log( "姝ｅ湪鍔犺浇鍓ф儏" );
+	log( "姝ｅ湪鍚姩娓告垙..." );
     log.clear();
 
     setTimeout( sence.switchSence.saturate( sence, "home-menu" ), 3000 );
@@ -79,10 +78,10 @@ message.addEventListener("slice.at", function( fruit, angle ){
 var tip = "";
 
 if( !Ucren.isChrome )
-    tip = "$为了获得最佳流畅度，推荐您使用 <span class='b'>Google Chrome</span> 体验本游戏";
+    tip = "<span class='b'>Google Chrome</span> ";
 
 if( !buzz.isSupported() )
-    tip = tip.replace( "$", "您的浏览器不支持 &lt;audio&gt 播放声效，且" );
+    tip = tip.replace( "$", "鎮ㄧ殑娴忚鍣ㄤ笉鏀寔 &lt;audio&gt 鎾斁澹版晥锛屼笖" );
 
 tip = tip.replace( "$", "" );
 
